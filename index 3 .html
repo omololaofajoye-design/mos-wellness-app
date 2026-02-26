@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#1a1a2e"/>
+<title>Mo's Wellness App</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:500px;margin:0 auto;padding:14px 14px 90px;transition:background .3s}
+:root{--bg:linear-gradient(135deg,#fff9f0,#f0fff4);--card:#fff;--text:#1a1a2e;--sub:#666;--border:#f0f0f0;--inp:#f5f5f5;--inp-text:#333;--track:#e0e0e0}
+.dark{--bg:#0a0a0f;--card:#13131a;--text:#f0ede8;--sub:#9a8fa0;--border:#2a2a3a;--inp:#1a1a24;--inp-text:#f0ede8;--track:#2a2a3a}
+.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.dark .card{box-shadow:0 4px 20px rgba(0,0,0,.3)}
+input,select{background:var(--inp);color:var(--inp-text);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:14px;outline:none;width:100%;font-family:inherit}
+button{cursor:pointer;border:none;font-family:inherit;transition:opacity .2s}
+button:active{opacity:0.7}
+
+/* Header Elements */
+.header{background:linear-gradient(135deg,#1a0a2e 0%,#16213e 50%,#0f3460 100%);padding:24px 16px 16px;border-radius:20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+.header-circle1{position:absolute;top:-20px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.header-bar{margin-top:14px;background:rgba(255,255,255,0.15);border-radius:12px;padding:10px 14px;backdrop-filter:blur(8px);}
+.progress-track{height:6px;background:rgba(255,255,255,0.2);border-radius:3px;margin:6px 0;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#f5a623,#fff);border-radius:3px;transition:width .5s;}
+
+/* Buttons & Utils */
+.btn-primary{background:linear-gradient(135deg,#00d68f,#3498db);color:#fff;border-radius:14px;padding:13px;font-weight:800;font-size:15px;width:100%;border:none}
+.btn-green{background:#00d68f;color:#fff;border-radius:12px;padding:10px 14px;font-weight:700;font-size:13px;border:none;white-space:nowrap}
+.btn-gold{background:#f5a623;color:#000;border-radius:12px;padding:10px 14px;font-weight:700;font-size:13px;border:none;}
+.btn-danger{background:transparent;border:2px solid #e84545;border-radius:14px;padding:11px;color:#e84545;font-weight:700;font-size:13px;width:100%}
+.row{display:flex;align-items:center;gap:8px}
+.flex-sb{display:flex;justify-content:space-between;align-items:center;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.pill{border-radius:10px;padding:7px 4px;font-weight:700;font-size:11px;border:none;white-space:nowrap;transition:background .2s}
+
+/* Tab Bar */
+.tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;background:var(--card);border-top:1px solid var(--border);display:flex;justify-content:space-around;z-index:50;padding:8px 4px 16px}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:12px;background:transparent;color:var(--sub);font-size:9px;font-weight:700;transition:all .2s}
+.tab-item.active{color:#00d68f;background:rgba(0,214,143,0.1)}
+.tab-item span:first-child{font-size:18px}
+
+/* Progress & Lists */
+.prog-bar{background:var(--track);border-radius:20px;overflow:hidden}
+.ritual-card{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;margin-bottom:8px;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.ritual-card.done{border-color:#00d68f}
+.food-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.stat-box{background:var(--inp);border-radius:12px;padding:10px 6px;text-align:center;border:1px solid var(--border)}
+.milestone-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;margin-bottom:6px;border:2px solid transparent}
+.milestone-row.reached{border-color:#00d68f}
+.manual-form{background:var(--inp);border-radius:16px;padding:14px;margin-top:10px;border:1px solid var(--border)}
+.manual-form input,.manual-form select{margin-bottom:8px}
+
+h2{font-size:17px;color:var(--text);margin-bottom:4px}
+h3{font-size:15px;color:var(--text);margin-bottom:10px}
+.del-btn{background:none;color:#e84545;font-size:15px;padding:0 8px;font-weight:bold;}
+
+/* Overlays */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;}
+.milestone-popup{background:#13131a;border:1px solid #f5a623;border-radius:24px;padding:30px;text-align:center;max-width:320px;width:100%;box-shadow:0 10px 30px rgba(245,166,35,0.3)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const PROFILE={name:"Mo'",startWeight:70.25,goalWeight:63,heightCm:162.56,age:36,calGoal:1400};
+const MILESTONES=[{kg:3,gift:"🛁 Luxe Bath Ritual",desc:"Treat yourself to a relaxing bath with oils & music"},{kg:6,gift:"👗 New Outfit",desc:"Buy that outfit you've been eyeing!"},{kg:7.25,gift:"🎉 Goal Achieved!",desc:"Full wellness day — spa & celebration!"}];
+const WATER_OPTS=[{id:"plain",name:"Plain Water",emoji:"💧"},{id:"lemon",name:"Water & Lemon",emoji:"🍋"},{id:"chia",name:"Water & Chia",emoji:"🌱"},{id:"warm",name:"Warm Water",emoji:"♨️"}];
+
+const DEFAULT_RITUALS=[{id:"ginger",name:"Ginger Shot",emoji:"🫚",time:"6–7 AM",note:"Anti-inflammatory"},{id:"coffee",name:"Black Coffee",emoji:"☕",time:"7–8 AM",note:"Focus"},{id:"greentea",name:"Green Tea",emoji:"🍵",time:"10–11 AM",note:"Antioxidant"}];
+const DEFAULT_BLUEPRINT=[{time:"6–7 AM",emoji:"🫚",text:"Morning rituals (empty stomach)"},{time:"8 AM–1 PM",emoji:"💻",text:"Fasting window & Work mode"},{time:"1 PM",emoji:"🍽️",text:"Lunch (Break Fast)"},{time:"7 PM",emoji:"🌙",text:"Dinner & Fasting begins"}];
+
+const NAIJA=[{n:"Jollof Rice",e:"🍚",c:350,ca:58,p:8,f:10},{n:"Egusi Soup",e:"🥘",c:420,ca:12,p:22,f:32},{n:"Suya (100g)",e:"🍢",c:220,ca:5,p:28,f:10},{n:"Moi Moi",e:"🧆",c:190,ca:18,p:14,f:7},{n:"Pounded Yam",e:"🥔",c:300,ca:72,p:3,f:1},{n:"Fried Plantain",e:"🍌",c:240,ca:50,p:2,f:5},{n:"Zobo Drink",e:"🥤",c:60,ca:15,p:0,f:0}];
+const GLOBAL=[{n:"Egg (1 large)",e:"🥚",c:78,ca:1,p:6,f:5},{n:"Chicken Breast 100g",e:"🍗",c:165,ca:0,p:31,f:4},{n:"Avocado (half)",e:"🥑",c:120,ca:6,p:2,f:11},{n:"Oats 1cup",e:"🥣",c:150,ca:27,p:5,f:3},{n:"Brown Rice 1cup",e:"🌾",c:215,ca:45,p:5,f:2}];
+const ALL_FOODS=[...NAIJA,...GLOBAL];
+const QUOTES=[`You're crushing it, ${PROFILE.name}! 💪`,"Naija girl strong! 🇳🇬🔥","Small steps, big results! 🌟","63kg loading... 📦💚","Consistency is your superpower! ⚡"];
+
+// ── STORAGE ───────────────────────────────────────────────────────────────
+const save=(k,v)=>{try{localStorage.setItem('mo_'+k,JSON.stringify(v))}catch(e){}};
+const load=(k,def)=>{try{const v=localStorage.getItem('mo_'+k);return v!==null?JSON.parse(v):def}catch(e){return def}};
+function today(){return new Date().toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'});}
+
+let savedFood = load('foodLog',{"Breakfast":[],"Lunch":[],"Dinner":[],"Snack":[]});
+if(!savedFood["Breakfast"]) savedFood = {"Breakfast":[],"Lunch":[],"Dinner":[],"Snack":[]};
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let state={
+  dark:load('dark',true), tab:0,
+  
+  // Meals
+  foodLog:savedFood, activeMeal:"Breakfast", foodSearch:"", foodFilter:"All", showFoodSearch:false,
+  showManualFood:false, manualFood:{name:"",emoji:"🍽️",cal:"",carbs:"",protein:"",fat:""},
+  
+  // Editable Plans
+  myRituals:load('myRituals', DEFAULT_RITUALS), ritualsChecked:load('ritualsChecked_'+today(),{}),
+  showAddRitual:false, newRitual:{name:"", emoji:"✨", time:"", note:""},
+  myBlueprint:load('myBlueprint', DEFAULT_BLUEPRINT),
+  showAddBlueprint:false, newBlueprint:{time:"", emoji:"🕒", text:""},
+
+  // Trackers
+  sleepLog:load('sleepLog',[]), sleepInput:"",
+  steps:load('steps_'+today(), 0), stepsInput:"", stepsGoal:8000,
+  waterType:"plain", glasses:load('glasses_'+today(),0), waterGoal:load('waterGoal',8), hydrationLog:load('hydrationLog_'+today(),[]),
+  showManualWater:false, manualWater:{name:"",emoji:"💧"},
+  exercises:load('exercises_'+today(),[]), showManualExercise:false, manualExercise:{name:"",emoji:"🏃",mins:"",cal:""},
+  
+  // Fasting & Weight
+  ifActive:load('ifActive',false), ifStart:load('ifStart',null), ifHistory:load('ifHistory',[]),
+  weightLog:load('weightLog',[{date:"Start",weight:PROFILE.startWeight,id:0}]),
+  weightInput:"", milestone:null, quote:QUOTES[Math.floor(Math.random()*QUOTES.length)]
+};
+
+// ── COMPUTED ──────────────────────────────────────────────────────────────
+function totalCals(){const allFoods=[].concat(...Object.values(state.foodLog)); return allFoods.reduce((s,f)=>s+f.c,0) + Object.keys(state.ritualsChecked).length*5;}
+function burnedCals(){return state.exercises.reduce((s,e)=>s+e.burned,0);}
+function latestWeight(){return state.weightLog[state.weightLog.length-1]?.weight??PROFILE.startWeight;}
+function totalLost(){return Math.max(0,+(PROFILE.startWeight-latestWeight()).toFixed(2));}
+function pctGoal(){return Math.min(100,Math.max(0,(totalLost()/(PROFILE.startWeight-PROFILE.goalWeight))*100));}
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function r(){
+  document.getElementById('app').innerHTML=render();
+  setTimeout(()=>{ if(document.getElementById('weightChart')) drawWeightChart(); }, 0);
+}
+
+function render(){
+  document.body.className=state.dark?'dark':'';
+  const tabs=["🏠","🍽️","💧","⏱️","📋","📊"];
+  const tabLabels=["Home","Food","Hydrate","Fast","Plan","Stats"];
+  
+  return`
+    ${state.milestone?renderMilestonePopup():''}
+    
+    <div class="header">
+      <div class="header-circle1"></div>
+      <div class="flex-sb" style="position:relative;z-index:10">
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);font-weight:600;letter-spacing:1px;text-transform:uppercase">Welcome back</div>
+          <div style="font-size:26px;font-weight:900;color:#fff">${PROFILE.name} 🌟</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px">${new Date().toLocaleDateString('en-NG',{weekday:'long',day:'numeric',month:'short'})}</div>
+        </div>
+        <button onclick="toggleDark()" style="background:rgba(255,255,255,0.2);border:none;border-radius:50%;width:36px;height:36px;font-size:16px;color:#fff">${state.dark?'☀️':'🌙'}</button>
+      </div>
+      <div class="header-bar" style="position:relative;z-index:10">
+        <div style="font-size:11px;color:rgba(255,255,255,0.9)">Journey: ${PROFILE.startWeight}kg → ${PROFILE.goalWeight}kg</div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pctGoal()}%"></div></div>
+        <div class="flex-sb" style="font-size:10px;color:rgba(255,255,255,0.9)">
+          <span>Lost: <strong style="color:#f5a623">${totalLost()}kg</strong></span>
+          <span>Left: ${Math.max(0, latestWeight() - PROFILE.goalWeight).toFixed(2)}kg</span>
+        </div>
+      </div>
+    </div>
+
+    ${[renderHome,renderFood,renderHydration,renderIF,renderPlan,renderStats][state.tab]()}
+    
+    <nav class="tab-bar">
+      ${tabs.map((t,i)=>`<button class="tab-item${state.tab===i?' active':''}" onclick="setTab(${i})"><span>${t}</span><span>${tabLabels[i]}</span></button>`).join('')}
+    </nav>`;
+}
+
+// ── 1. HOME TAB ────────────────────────────────────────────────────────────
+function renderHome(){
+  const ritTotal = state.myRituals.length;
+  const ritDone = state.myRituals.filter(rt => state.ritualsChecked[rt.id]).length;
+  const ritPct = ritTotal > 0 ? (ritDone/ritTotal)*100 : 0;
+  const stepsPct = Math.min(100, (state.steps/state.stepsGoal)*100);
+
+  return`
+  <div style="background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:14px;text-align:center">
+    <p style="color:var(--text);font-weight:700;font-size:13px">${state.quote}</p>
+  </div>
+  
+  <div class="card">
+    <div class="flex-sb" style="margin-bottom:6px">
+      <h3 style="margin:0">🌅 Today's Rituals</h3>
+      <span style="font-size:11px;color:#00d68f;font-weight:700">${Math.round(ritPct)}%</span>
+    </div>
+    <div class="prog-bar" style="height:6px;margin-bottom:14px"><div class="prog-fill" style="width:${ritPct}%;background:#00d68f"></div></div>
+    
+    ${state.myRituals.map((rt, i)=>{
+      const done=state.ritualsChecked[rt.id];
+      return`<div class="ritual-card${done?' done':''}" style="background:${done?'rgba(0,214,143,0.1)':'var(--inp)'}" onclick="toggleRitual('${rt.id}')">
+      <span style="font-size:24px">${rt.emoji}</span>
+      <div style="flex:1"><div style="font-weight:700;font-size:13px">${rt.name}</div><div style="font-size:10px;color:var(--sub)">${rt.time}</div></div>
+      <button onclick="event.stopPropagation(); removeRitual(${i})" class="del-btn">✕</button>
+      <span style="font-size:18px;margin-left:4px">${done?'✅':'⭕'}</span>
+    </div>`;}).join('')}
+    
+    ${state.showAddRitual ? `
+    <div class="manual-form">
+      <input placeholder="Name (e.g. Green Tea)" oninput="state.newRitual.name=this.value"/>
+      <div class="row" style="gap:8px">
+        <input placeholder="Emoji 🍵" style="width:70px;text-align:center" oninput="state.newRitual.emoji=this.value"/>
+        <input placeholder="Time (e.g. 10 AM)" oninput="state.newRitual.time=this.value"/>
+      </div>
+      <div class="row" style="gap:8px">
+        <button class="btn-green" onclick="addRitual()" style="flex:1">Save</button>
+        <button onclick="setState('showAddRitual',false)" style="background:var(--card);color:var(--sub);padding:8px;border-radius:10px;font-weight:700;font-size:12px;border:1px solid var(--border)">Cancel</button>
+      </div>
+    </div>` : `<button onclick="setState('showAddRitual',true)" style="width:100%;padding:10px;background:transparent;border:1px dashed var(--sub);color:var(--text);border-radius:12px;font-size:12px;font-weight:700;margin-top:4px">+ Add Custom Ritual</button>`}
+  </div>
+
+  <div class="grid2">
+    <div class="card" style="margin-bottom:14px">
+      <h3 style="margin-bottom:4px">😴 Sleep</h3>
+      <p style="font-size:10px;color:var(--sub);margin-bottom:8px">Rest = fat loss</p>
+      <div class="row" style="gap:4px;margin-bottom:8px">
+        <input type="number" placeholder="Hrs (e.g. 7.5)" value="${state.sleepInput}" oninput="state.sleepInput=this.value" style="padding:8px;font-size:12px"/>
+        <button onclick="logSleep()" class="btn-primary" style="padding:8px;font-size:12px;width:auto">Log</button>
+      </div>
+      ${state.sleepLog.length>0 ? `<div style="font-size:11px;color:var(--sub)">Last night: <strong style="color:#3498db">${state.sleepLog[state.sleepLog.length-1].hrs}h</strong></div>` : ''}
+    </div>
+    <div class="card" style="margin-bottom:14px">
+      <h3 style="margin-bottom:4px">👟 Steps</h3>
+      <p style="font-size:10px;color:var(--sub);margin-bottom:8px">${state.steps} / ${state.stepsGoal}</p>
+      <div class="prog-bar" style="height:6px;margin-bottom:8px"><div class="prog-fill" style="width:${stepsPct}%;background:#3498db"></div></div>
+      <div class="row" style="gap:4px">
+        <input type="number" placeholder="Add steps" value="${state.stepsInput}" oninput="state.stepsInput=this.value" style="padding:8px;font-size:12px"/>
+        <button onclick="logSteps()" class="btn-primary" style="padding:8px;font-size:12px;width:auto">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📅 Daily Blueprint</h3>
+    ${state.myBlueprint.map((bp, i)=>`<div class="row" style="margin-bottom:10px;align-items:flex-start">
+      <div style="min-width:65px;font-size:10px;color:#f5a623;font-weight:700;padding-top:2px">${bp.time}</div>
+      <span style="font-size:18px">${bp.emoji}</span>
+      <div style="font-size:13px;flex:1">${bp.text}</div>
+      <button onclick="removeBlueprint(${i})" class="del-btn">✕</button>
+    </div>`).join('')}
+    
+    ${state.showAddBlueprint ? `
+    <div class="manual-form">
+      <div class="row" style="gap:8px">
+        <input placeholder="Time" oninput="state.newBlueprint.time=this.value" style="width:40%"/>
+        <input placeholder="Emoji 🕒" oninput="state.newBlueprint.emoji=this.value" style="width:60%;text-align:center"/>
+      </div>
+      <input placeholder="Description" oninput="state.newBlueprint.text=this.value"/>
+      <div class="row" style="gap:8px">
+        <button class="btn-green" onclick="addBlueprint()" style="flex:1">Save</button>
+        <button onclick="setState('showAddBlueprint',false)" style="background:var(--card);color:var(--sub);padding:8px;border-radius:10px;font-weight:700;font-size:12px;border:1px solid var(--border)">Cancel</button>
+      </div>
+    </div>` : `<button onclick="setState('showAddBlueprint',true)" style="width:100%;padding:10px;background:transparent;border:1px dashed var(--sub);color:var(--text);border-radius:12px;font-size:12px;font-weight:700;margin-top:4px">+ Add Event</button>`}
+  </div>`;
+}
+
+// ── 2. FOOD TAB ────────────────────────────────────────────────────────────
+function renderFood(){
+  const allFoods=[].concat(...Object.values(state.foodLog));
+  const eaten=totalCals(), burned=burnedCals();
+  const net = Math.max(0, eaten - burned);
+  const rem = PROFILE.calGoal - net;
+  
+  const budget = PROFILE.calGoal + burned; 
+  const pctEaten = Math.min(100, (eaten / budget) * 100);
+  const pctRem = 100 - pctEaten;
+  const carbs=allFoods.reduce((s,f)=>s+f.ca,0),prot=allFoods.reduce((s,f)=>s+f.p,0),fat=allFoods.reduce((s,f)=>s+f.f,0);
+  const src=state.foodFilter==='🇳🇬 Naija'?NAIJA:state.foodFilter==='🌍 Global'?GLOBAL:ALL_FOODS;
+  const filtered=state.foodSearch?src.filter(f=>f.n.toLowerCase().includes(state.foodSearch.toLowerCase())):[];
+  const mf=state.manualFood;
+
+  return`
+  <div class="card">
+    <div class="flex-sb" style="margin-bottom:12px">
+      <div><h3 style="margin:0">📊 Calorie Breakdown</h3><p style="font-size:11px;color:var(--sub)">Goal: ${PROFILE.calGoal} kcal</p></div>
+    </div>
+    <div style="background:var(--inp); border-radius:14px; padding:16px; margin-bottom:14px; border:1px solid var(--border)">
+      <div class="flex-sb" style="margin-bottom:8px;">
+          <div><div style="font-size:12px;color:var(--sub);font-weight:700">EATEN</div><div style="font-weight:900;color:#e84545;font-size:22px">${eaten}</div></div>
+          <div style="text-align:right"><div style="font-size:12px;color:var(--sub);font-weight:700">REMAINING</div><div style="font-weight:900;color:${rem<0?'#e84545':'#00d68f'};font-size:22px">${rem<0?'0':rem}</div></div>
+      </div>
+      <div style="height:12px; background:var(--track); border-radius:10px; overflow:hidden; display:flex;">
+          <div style="width:${pctEaten}%; background:#e84545; transition:width 0.5s"></div>
+          <div style="width:${pctRem}%; background:#00d68f; transition:width 0.5s"></div>
+      </div>
+      <div class="row" style="justify-content:center; gap:16px; margin-top:12px;">
+        <div style="font-size:11px; color:var(--sub)">🔥 Burned: <strong style="color:#3498db">${burned}</strong></div>
+        <div style="font-size:11px; color:var(--sub)">⚖️ Net: <strong>${net}</strong></div>
+      </div>
+    </div>
+    <div class="row" style="justify-content:space-around;background:var(--inp);border-radius:12px;padding:10px 0;border:1px solid var(--border)">
+      ${[['Carbs',carbs+'g','#f5a623'],['Protein',prot+'g','#e84545'],['Fat',fat+'g','#3498db']]
+        .map(([l,v,c])=>`<div style="text-align:center"><div style="font-size:13px;font-weight:800;color:${c}">${v}</div><div style="font-size:10px;color:var(--sub)">${l}</div></div>`).join('')}
+    </div>
+  </div>
+  
+  <div class="row" style="gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px">
+    ${['Breakfast','Lunch','Dinner','Snack'].map(m=>`<button class="pill" style="min-width:70px;padding:9px;background:${state.activeMeal===m?'#3498db':'var(--inp)'};color:${state.activeMeal===m?'#fff':'var(--sub)'}" onclick="setMeal('${m}')">${m}</button>`).join('')}
+  </div>
+  
+  <div class="card">
+    <div class="flex-sb" style="margin-bottom:10px">
+      <h3 style="margin-bottom:0">${state.activeMeal}</h3>
+      <div class="row" style="gap:6px">
+        <button onclick="toggleManualFood()" style="background:${state.showManualFood?'#e84545':'var(--inp)'};color:${state.showManualFood?'#fff':'var(--text)'};border-radius:10px;padding:6px 10px;font-weight:700;font-size:11px">${state.showManualFood?'✕ Cancel':'✏️ Manual'}</button>
+        <button onclick="toggleFoodSearch()" style="background:${state.showFoodSearch?'#f5a623':'#00d68f'};color:#fff;border-radius:10px;padding:6px 10px;font-weight:700;font-size:11px">🔍 Search</button>
+      </div>
+    </div>
+    
+    ${state.showManualFood?`
+    <div class="manual-form">
+      <p style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:10px">✏️ Add to ${state.activeMeal}</p>
+      <input placeholder="Food name (e.g. Ofada Rice)" id="mfName" value="${mf.name}" oninput="updateManualFood('name',this.value)"/>
+      <div class="row" style="gap:8px">
+        <input placeholder="Emoji 🍚" id="mfEmoji" value="${mf.emoji}" oninput="updateManualFood('emoji',this.value)" style="width:80px;text-align:center;font-size:18px"/>
+        <input type="number" placeholder="Calories*" id="mfCal" value="${mf.cal}" oninput="updateManualFood('cal',this.value)"/>
+      </div>
+      <div class="row" style="gap:8px">
+        <input type="number" placeholder="Carbs(g)" id="mfCarbs" value="${mf.carbs}" oninput="updateManualFood('carbs',this.value)"/>
+        <input type="number" placeholder="Prot(g)" id="mfProtein" value="${mf.protein}" oninput="updateManualFood('protein',this.value)"/>
+        <input type="number" placeholder="Fat(g)" id="mfFat" value="${mf.fat}" oninput="updateManualFood('fat',this.value)"/>
+      </div>
+      <button onclick="addManualFood()" class="btn-green" style="width:100%;margin-top:4px">+ Add Food</button>
+    </div>`:''}
+    
+    ${state.showFoodSearch&&!state.showManualFood?`
+    <div style="margin-bottom:10px">
+      <div class="row" style="gap:5px;margin-bottom:8px">
+        ${['All','🇳🇬 Naija','🌍 Global'].map(f=>`<button class="pill" style="flex:1;background:${state.foodFilter===f?'#00d68f':'var(--inp)'};color:${state.foodFilter===f?'#fff':'var(--sub)'}" onclick="setFoodFilter('${f}')">${f}</button>`).join('')}
+      </div>
+      <input placeholder="Search database... 🔍" value="${state.foodSearch}" oninput="setFoodSearch(this.value)" style="font-size:13px"/>
+      ${state.foodSearch?`<div class="search-results">${filtered.length===0?'<p style="text-align:center;color:var(--sub);padding:12px;font-size:12px">Not found. Use ✏️ Manual entry!</p>':
+        filtered.slice(0,30).map(f=>`<div class="search-item" onclick="addFood('${encodeURIComponent(JSON.stringify(f))}')">
+          <span style="font-size:12px">${f.e} ${f.n}</span>
+          <span style="font-size:11px;color:#e84545;font-weight:700">${f.c} kcal</span>
+        </div>`).join('')}</div>`:''}
+    </div>`:''}
+    
+    ${(state.foodLog[state.activeMeal]||[]).length===0
+      ?`<p style="text-align:center;color:var(--sub);font-size:12px;padding:12px 0">Empty plate. Add your meal! 🍽️</p>`
+      :(state.foodLog[state.activeMeal]||[]).map((f,i)=>`<div class="food-row">
+        <span style="font-size:12px">${f.e} ${f.n}</span>
+        <div class="row" style="gap:8px"><span style="font-size:11px;color:#e84545;font-weight:700">${f.c} kcal</span>
+        <button onclick="removeFood(${i})" class="del-btn">✕</button></div>
+      </div>`).join('')}
+  </div>
+  
+  <div class="card">
+    <h3>🏋️ Exercise Log</h3>
+    ${state.exercises.length>0?state.exercises.map((ex,i)=>`<div class="food-row">
+      <span style="font-size:12px">${ex.e} ${ex.name} (${ex.mins}m)</span>
+      <div class="row" style="gap:8px"><span style="font-size:11px;color:#3498db;font-weight:700">-${ex.burned}kcal</span>
+      <button onclick="removeExercise(${i})" class="del-btn">✕</button></div>
+    </div>`).join(''):`<p style="text-align:center;color:var(--sub);font-size:12px;padding:8px 0">No exercise logged yet.</p>`}
+    
+    ${state.showManualExercise ? `
+    <div class="manual-form" style="margin-top:8px">
+      <input placeholder="Workout (e.g. Walking)" id="meName" value="${state.manualExercise.name}" oninput="updateManualExercise('name',this.value)"/>
+      <div class="row" style="gap:8px">
+        <input placeholder="Emoji 🏃" id="meEmoji" value="${state.manualExercise.emoji}" oninput="updateManualExercise('emoji',this.value)" style="width:80px;text-align:center;font-size:18px"/>
+        <input type="number" placeholder="Mins" id="meMins" value="${state.manualExercise.mins}" oninput="updateManualExercise('mins',this.value)"/>
+        <input type="number" placeholder="Cal burned" id="meCal" value="${state.manualExercise.cal}" oninput="updateManualExercise('cal',this.value)"/>
+      </div>
+      <div class="row" style="gap:8px;margin-top:4px">
+        <button onclick="addManualExercise()" class="btn-primary" style="flex:1;padding:10px;font-size:13px">+ Add Workout</button>
+        <button onclick="toggleManualExercise()" style="background:var(--card);color:var(--sub);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-weight:700;font-size:13px">Cancel</button>
+      </div>
+    </div>` : `<button onclick="toggleManualExercise()" style="background:var(--inp);color:var(--text);border:1px dashed var(--border);border-radius:10px;padding:10px 12px;font-weight:700;font-size:12px;margin-top:8px;width:100%">+ Log Custom Workout</button>`}
+  </div>
+  <button class="btn-danger" onclick="resetFood()" style="margin-top:4px">🔄 Reset Food & Exercise</button>`;
+}
+
+// ── 3. HYDRATION TAB ───────────────────────────────────────────────────────
+function renderHydration(){
+  const g=state.glasses,wg=state.waterGoal,pct=Math.min(g/wg*100,100);
+  const mw=state.manualWater;
+  return`
+  <div class="card">
+    <h2 style="text-align:center;margin-bottom:4px">💧 Hydration</h2>
+    <p style="text-align:center;color:var(--sub);font-size:11px;margin-bottom:14px">Hydration is your secret weapon! 💪</p>
+    <div style="text-align:center;margin-bottom:12px">
+      <span style="font-size:48px;font-weight:900;color:#3498db">${g}</span>
+      <span style="font-size:14px;color:var(--sub)"> / ${wg} glasses</span>
+    </div>
+    <div class="prog-bar" style="height:14px;margin-bottom:14px"><div class="prog-fill" style="width:${pct}%;background:linear-gradient(90deg,#3498db,#00d68f)"></div></div>
+    <div class="row" style="margin-bottom:14px;justify-content:center">
+      <span style="color:var(--sub);font-size:12px;white-space:nowrap">🎯 Daily goal:</span>
+      <input type="number" value="${wg}" oninput="setWaterGoal(this.value)" min="1" style="width:60px;text-align:center;font-size:14px"/>
+      <span style="color:var(--sub);font-size:12px">glasses</span>
+    </div>
+    <div class="grid2" style="margin-bottom:14px">
+      ${WATER_OPTS.map(o=>`<div class="stat-box${state.waterType===o.id?'':' unselected'}" style="${state.waterType===o.id?'border-color:#3498db;background:rgba(52,152,219,0.1)':''}" onclick="setWaterType('${o.id}')">
+        <div style="font-size:22px;margin-bottom:4px">${o.emoji}</div>
+        <div style="font-size:12px;font-weight:700">${o.name}</div>
+      </div>`).join('')}
+    </div>
+    <button class="btn-primary" onclick="addWater()" style="margin-bottom:10px">+ Log a Glass 💧</button>
+    <button onclick="toggleManualWater()" style="background:${state.showManualWater?'#e84545':'#2a2a3a'};color:#fff;border-radius:12px;padding:10px;font-weight:700;font-size:13px;width:100%;margin-bottom:10px">${state.showManualWater?'✕ Cancel':'✏️ Add Custom Drink'}</button>
+    ${state.showManualWater?`<div class="manual-form">
+      <div class="row" style="gap:8px">
+        <input placeholder="Emoji" id="mwEmoji" value="${mw.emoji}" oninput="updateManualWater('emoji',this.value)" style="width:80px;text-align:center;font-size:18px"/>
+        <input placeholder="Drink name (e.g. Coconut Water)" id="mwName" value="${mw.name}" oninput="updateManualWater('name',this.value)"/>
+      </div>
+      <button onclick="addManualWater()" class="btn-green" style="width:100%;margin-top:8px">+ Log Drink</button>
+    </div>`:''}
+  </div>
+  ${state.hydrationLog.length>0?`<div class="card">
+    <h3>Today's Hydration Log</h3>
+    <div style="max-height:200px;overflow-y:auto">
+      ${[...state.hydrationLog].reverse().map(h=>`<div class="food-row">
+        <span style="font-size:13px">${h.emoji} ${h.name}</span>
+        <div class="row" style="gap:8px"><span style="font-size:11px;color:var(--sub)">${h.time}</span>
+        <button onclick="removeWater(${h.id})" class="del-btn">✕</button></div>
+      </div>`).join('')}
+    </div>
+  </div>`:''}`;
+}
+
+// ── 4. FASTING TAB ─────────────────────────────────────────────────────────
+function renderIF(){
+  const el=parseFloat(ifElapsed()),target=18,pct=Math.min(el/target,1),r2=75,cx=90,cy=90,circ=2*Math.PI*r2;
+  return`
+  <div class="card">
+    <h2 style="text-align:center;margin-bottom:4px">⏱️ Fasting Timer</h2>
+    <div style="text-align:center;margin-bottom:20px;margin-top:14px">
+      <svg width="180" height="180" style="display:block;margin:0 auto">
+        <circle cx="${cx}" cy="${cy}" r="${r2}" fill="none" stroke="var(--track)" stroke-width="14"/>
+        <circle cx="${cx}" cy="${cy}" r="${r2}" fill="none" stroke="${state.ifActive?'#00d68f':'#3498db'}" stroke-width="14" stroke-linecap="round"
+          stroke-dasharray="${pct*circ} ${circ}" transform="rotate(-90 ${cx} ${cy})"/>
+        <text x="${cx}" y="${cy-14}" text-anchor="middle" font-size="28" font-weight="900" fill="var(--text)">${el}</text>
+        <text x="${cx}" y="${cy+8}" text-anchor="middle" font-size="11" fill="var(--sub)">hrs fasted</text>
+        <text x="${cx}" y="${cy+26}" text-anchor="middle" font-size="10" fill="${state.ifActive?'#00d68f':'var(--sub)'}">
+          ${state.ifActive?`${Math.max(0,target-el).toFixed(1)}h remaining`:'Not started'}
+        </text>
+      </svg>
+    </div>
+    ${!state.ifActive
+      ?`<button class="btn-primary" onclick="startIF()" style="margin-bottom:10px">▶️ Start Fast</button>`
+      :`<button onclick="endIF()" style="width:100%;padding:13px;background:#e84545;color:#fff;border-radius:14px;font-weight:800;font-size:15px;margin-bottom:10px;border:none">⏹️ End Fast & Log</button>`}
+  </div>
+  ${state.ifHistory.length>0?`<div class="card">
+    <h3>📋 Fasting History</h3>
+    ${[...state.ifHistory].reverse().map(h=>`<div class="food-row">
+      <span style="color:var(--sub);font-size:12px">${h.date}</span>
+      <div class="row" style="gap:8px">
+        <span style="color:${parseFloat(h.hours)>=18?'#00d68f':'#f5a623'};font-weight:700;font-size:13px">${h.hours}h ${parseFloat(h.hours)>=18?'✅':'⚡'}</span>
+        <button onclick="removeFast(${h.id})" class="del-btn">✕</button>
+      </div>
+    </div>`).join('')}
+  </div>`:''}`;
+}
+
+// ── 5. PLAN & GUIDES TAB ───────────────────────────────────────────────────
+function renderPlan(){
+  return `
+  <div class="card" style="background:linear-gradient(135deg,#1a0a2e,#16213e);border:1px solid #f5a623">
+    <div style="color:#fff;font-weight:900;font-size:22px">🗺️ Mo's 3-Month Plan</div>
+    <div style="color:rgba(255,255,255,.7);font-size:13px;margin-top:4px">70.25kg → 63kg · ~7.25kg in 12 weeks</div>
+  </div>
+  
+  <div class="card">
+    <h3>🌿 Herbal Tea Guide</h3>
+    <div class="stat-box" style="margin-bottom:8px;text-align:left;border-color:#f5a623">
+      <div style="font-weight:800;font-size:14px">🌺 Zobo Blend (Mo's Blend A)</div>
+      <div style="color:var(--sub);font-size:11px;margin:4px 0">⏰ <strong>7:00–8:00 AM</strong> | Zobo, Ginger, Cinnamon, Cloves</div>
+      <div style="color:#00d68f;font-size:11px">✨ Antioxidant, metabolism boost, blood sugar</div>
+    </div>
+    <div class="stat-box" style="text-align:left;border-color:#00d68f">
+      <div style="font-weight:800;font-size:14px">🌿 Wellness Blend (Mo's Blend B)</div>
+      <div style="color:var(--sub);font-size:11px;margin:4px 0">⏰ <strong>10:30 AM</strong> | Fennel, Fenugreek, Cloves, Cinnamon, Ginger, Black seeds, Star Anise, Lemongrass</div>
+      <div style="color:#00d68f;font-size:11px">✨ Anti-bloat, appetite suppression, fat burn</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📅 Week-by-Week Targets</h3>
+    <div style="font-size:13px">
+      <div class="flex-sb" style="margin-bottom:8px"><span>Week 1–2 (Reduce sugar, build habits)</span><strong style="color:#f5a623">69.25kg</strong></div>
+      <div class="flex-sb" style="margin-bottom:8px"><span>Week 3–4 (Optimize meals, daily movement)</span><strong style="color:#f5a623">68.0kg</strong></div>
+      <div class="flex-sb" style="margin-bottom:8px"><span>Week 5–6 (Add exercise, strict fasting)</span><strong style="color:#f5a623">67.0kg</strong></div>
+      <div class="flex-sb" style="margin-bottom:8px"><span>Week 7–8 (Cycle calories)</span><strong style="color:#f5a623">66.0kg</strong></div>
+      <div class="flex-sb" style="margin-bottom:8px"><span>Week 9–10 (Max hydration, high protein)</span><strong style="color:#f5a623">65.0kg</strong></div>
+      <div class="flex-sb"><span>Week 11–12 (Final push!)</span><strong style="color:#00d68f">63.0kg 🎉</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌸 Weekend Protocol</h3>
+    <ul style="padding-left:20px;font-size:12px;color:var(--text);line-height:1.6">
+      <li>Still do morning rituals (ginger shot, warm water, coffee)</li>
+      <li>Allow 2-meal window: 12PM–7PM max</li>
+      <li>Keep one meal nutrient-dense (protein + veg forward)</li>
+      <li>Add a 20-min walk or dance session</li>
+      <li>Don't stress — consistency Mon–Fri is key!</li>
+    </ul>
+  </div>`;
+}
+
+// ── 6. STATS & PROGRESS TAB ────────────────────────────────────────────────
+function renderStats(){
+  const lw=latestWeight(), lost=totalLost(), wl=state.weightLog;
+  
+  // BMI Calculations
+  const b = (lw / ((PROFILE.heightCm/100)**2));
+  const bStr = b.toFixed(1);
+  const cat = b<18.5?'Underweight':b<25?'Healthy Weight':b<30?'Overweight':'Obese';
+  const bCol = b<18.5?'#3498db':b<25?'#00d68f':b<30?'#f5a623':'#e84545';
+
+  return`
+  <div class="card">
+    <div class="flex-sb" style="margin-bottom:14px">
+      <h3 style="margin:0">📊 Progress Chart</h3>
+    </div>
+    ${wl.length>=2?'<canvas id="weightChart" width="320" height="150" style="width:100%;max-width:100%;display:block;margin-bottom:10px"></canvas>':'<p style="text-align:center;color:var(--sub);font-size:12px;padding:20px 0">Log at least 2 weights to see your chart! 📈</p>'}
+    
+    <div class="row" style="gap:8px;margin-top:14px">
+      <input type="number" id="wInp" placeholder="Log today's weight (kg)" value="${state.weightInput}" oninput="state.weightInput=this.value" style="font-size:13px"/>
+      <button onclick="logWeight()" class="btn-gold">Log ⚖️</button>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h3 style="text-align:center">⚖️ BMI Breakdown</h3>
+    <div style="text-align:center;margin:10px 0">
+      <div style="font-size:48px;font-weight:900;color:${bCol};line-height:1">${bStr}</div>
+      <div style="font-size:16px;font-weight:700;color:${bCol};margin-top:4px">${cat}</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:4px">Based on: ${lw}kg & ${PROFILE.heightCm}cm</div>
+    </div>
+    
+    <div style="background:var(--inp);border-radius:12px;padding:12px;margin-top:14px;border:1px solid var(--border)">
+      <div class="flex-sb" style="font-size:12px;margin-bottom:6px"><span style="color:#3498db">Underweight</span><span style="color:var(--sub)">&lt; 18.5</span></div>
+      <div class="flex-sb" style="font-size:12px;margin-bottom:6px"><span style="color:#00d68f;font-weight:700">Healthy</span><span style="color:var(--sub)">18.5 – 24.9</span></div>
+      <div class="flex-sb" style="font-size:12px;margin-bottom:6px"><span style="color:#f5a623">Overweight</span><span style="color:var(--sub)">25.0 – 29.9</span></div>
+      <div class="flex-sb" style="font-size:12px"><span style="color:#e84545">Obese</span><span style="color:var(--sub)">&gt; 30.0</span></div>
+    </div>
+    <div style="font-size:12px;color:var(--sub);margin-top:14px;line-height:1.5;text-align:center">
+      Once you reach your <strong>63kg</strong> target, your BMI will be an amazing <strong style="color:#00d68f">23.8</strong>!
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🎁 Reward Milestones</h3>
+    ${MILESTONES.map(m=>{const reached=lost>=m.kg;return`<div class="milestone-row${reached?' reached':''}" style="background:${reached?'rgba(0,214,143,0.1)':'var(--inp)'}">
+      <span style="font-size:22px;opacity:${reached?1:0.4}">🎁</span>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700;color:${reached?'#00d68f':'var(--text)'}">${m.label}</div><div style="font-size:11px;color:var(--sub)">${m.gift}</div></div>
+      <span>${reached?'✅':'🔒'}</span>
+    </div>`;}).join('')}
+  </div>
+
+  ${wl.length>0?`<div class="card">
+    <h3>📋 Weight History</h3>
+    <div style="max-height:200px;overflow-y:auto">
+      ${[...wl].reverse().map(e=>`<div class="food-row">
+        <span style="color:var(--sub);font-size:12px">${e.date}</span>
+        <div class="row" style="gap:10px"><span style="font-weight:700;font-size:13px">${e.weight} kg</span>
+          ${e.id!==0?`<button onclick="removeWeight(${e.id})" class="del-btn">✕</button>`:''}
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>`:''}`;
+}
+
+// ── CANVAS CHART LOGIC ────────────────────────────────────────────────────
+function drawWeightChart(){
+  const c = document.getElementById('weightChart'); if(!c) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height-20;
+  ctx.clearRect(0,0,W,c.height);
+  
+  const wl = state.weightLog;
+  if(wl.length < 2) return;
+
+  const weights = wl.map(w=>w.weight);
+  const goal = PROFILE.goalWeight;
+  const minW = Math.floor(Math.min(...weights, goal)-1);
+  const maxW = Math.ceil(Math.max(...weights)+1);
+  const padL = 25, padR = 10, padT = 10;
+  const iw = W - padL - padR, ih = H - padT;
+  
+  const xS = i => padL + i*(iw/(Math.max(wl.length-1, 1)));
+  const yS = v => padT + ih - ((v-minW)/(maxW-minW)*ih);
+  const pts = wl.map((w,i) => ({x:xS(i), y:yS(w.weight)}));
+  
+  // Grid & Labels
+  ctx.font = '10px sans-serif'; ctx.fillStyle = '#9a8fa0'; ctx.textAlign = 'right';
+  [0, 0.25, 0.5, 0.75, 1].forEach(pct => {
+    const v = minW + (maxW-minW)*pct;
+    const y = yS(v);
+    ctx.strokeStyle = state.dark ? '#2a2a3a' : '#f0f0f0';
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W-padR, y); ctx.stroke();
+    ctx.fillText(v.toFixed(0), padL-4, y+4);
+  });
+
+  // Goal Line
+  const goalY = yS(goal);
+  ctx.strokeStyle = '#00d68f'; ctx.lineWidth = 1.5; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(padL, goalY); ctx.lineTo(W-padR, goalY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#00d68f'; ctx.fillText('Goal', W-padR, goalY-4);
+
+  // Chart Fill
+  const grad = ctx.createLinearGradient(0,padT,0,H);
+  grad.addColorStop(0,'rgba(245,166,35,0.4)'); grad.addColorStop(1,'rgba(245,166,35,0)');
+  ctx.beginPath(); ctx.moveTo(pts[0].x, H);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length-1].x, H); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+
+  // Chart Line
+  ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.strokeStyle = '#f5a623'; ctx.lineWidth = 3; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
+
+  // Data Dots & Dates
+  ctx.textAlign = 'center';
+  pts.forEach((p, i) => {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
+    ctx.fillStyle = '#f5a623'; ctx.fill();
+    ctx.strokeStyle = state.dark ? '#13131a' : '#fff'; ctx.lineWidth = 2; ctx.stroke();
+    // Only show max 5 dates to avoid crowding
+    if(wl.length < 6 || i === 0 || i === wl.length-1 || i % Math.floor(wl.length/4) === 0) {
+      ctx.fillStyle = '#9a8fa0'; ctx.fillText(wl[i].date.split(' ')[0], p.x, H+15);
+    }
+  });
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────────
+function bindEvents(){}
+function setState(k,v){state[k]=v;r();}
+function toggleDark(){state.dark=!state.dark;save('dark',state.dark);r();}
+function setTab(i){state.tab=i;r();}
+function setMeal(m){state.activeMeal=m;r();}
+
+// Sleep & Steps Log Actions
+function logSleep() {
+  const val = parseFloat(state.sleepInput);
+  if(val > 0) {
+    state.sleepLog.push({date: today(), hrs: val, id: Date.now()});
+    state.sleepInput = ""; save('sleepLog', state.sleepLog); r();
+  }
+}
+function logSteps() {
+  const val = parseInt(state.stepsInput);
+  if(val > 0) {
+    state.steps += val; state.stepsInput = ""; save('steps_'+today(), state.steps); r();
+  }
+}
+
+// Editable Plans Actions
+function toggleRitual(id){
+  const k='ritualsChecked_'+today();
+  if(state.ritualsChecked[id]) delete state.ritualsChecked[id]; else state.ritualsChecked[id]=true;
+  save(k,state.ritualsChecked); r();
+}
+function addRitual(){
+  if(!state.newRitual.name) return;
+  state.myRituals.push({id:"rt_"+Date.now(), name:state.newRitual.name, emoji:state.newRitual.emoji||"✨", time:state.newRitual.time, note:state.newRitual.note});
+  state.newRitual = {name:"", emoji:"✨", time:"", note:""}; state.showAddRitual = false; save('myRituals', state.myRituals); r();
+}
+function removeRitual(idx){ state.myRituals.splice(idx, 1); save('myRituals', state.myRituals); r(); }
+
+function addBlueprint(){
+  if(!state.newBlueprint.text) return;
+  state.myBlueprint.push({...state.newBlueprint});
+  state.newBlueprint = {time:"", emoji:"🕒", text:""}; state.showAddBlueprint = false; save('myBlueprint', state.myBlueprint); r();
+}
+function removeBlueprint(idx){ state.myBlueprint.splice(idx, 1); save('myBlueprint', state.myBlueprint); r(); }
+
+// Food Actions
+function toggleFoodSearch(){state.showFoodSearch=!state.showFoodSearch;state.showManualFood=false;state.foodSearch='';r();}
+function toggleManualFood(){state.showManualFood=!state.showManualFood;state.showFoodSearch=false;r();}
+function setFoodFilter(f){state.foodFilter=f;r();}
+function setFoodSearch(v){state.foodSearch=v;r();}
+function updateManualFood(k,v){state.manualFood[k]=v;}
+function addManualFood(){
+  if(!state.manualFood.name||!state.manualFood.cal)return;
+  const food={n:state.manualFood.name,e:state.manualFood.emoji||'🍽️',c:parseInt(state.manualFood.cal)||0,ca:parseInt(state.manualFood.carbs)||0,p:parseInt(state.manualFood.protein)||0,f:parseInt(state.manualFood.fat)||0};
+  state.foodLog[state.activeMeal]=[...(state.foodLog[state.activeMeal]||[]),food];
+  state.manualFood={name:'',emoji:'🍽️',cal:'',carbs:'',protein:'',fat:''}; state.showManualFood=false; save('foodLog',state.foodLog);r();
+}
+function addFood(enc){
+  state.foodLog[state.activeMeal]=[...(state.foodLog[state.activeMeal]||[]),JSON.parse(decodeURIComponent(enc))];
+  state.foodSearch='';state.showFoodSearch=false; save('foodLog',state.foodLog);r();
+}
+function removeFood(i){ state.foodLog[state.activeMeal]=state.foodLog[state.activeMeal].filter((_,j)=>j!==i); save('foodLog',state.foodLog);r(); }
+function resetFood(){ state.foodLog={"Breakfast":[],"Lunch":[],"Dinner":[],"Snack":[]}; state.exercises=[]; save('foodLog',state.foodLog); save('exercises_'+today(),[]); r(); }
+
+// Exercise Actions
+function toggleManualExercise(){state.showManualExercise=!state.showManualExercise;r();}
+function updateManualExercise(k,v){state.manualExercise[k]=v;}
+function addManualExercise(){
+  if(!state.manualExercise.name||!state.manualExercise.mins||!state.manualExercise.cal)return;
+  state.exercises.push({name:state.manualExercise.name,e:state.manualExercise.emoji||'🏃',mins:parseInt(state.manualExercise.mins),burned:parseInt(state.manualExercise.cal)});
+  state.manualExercise={name:'',emoji:'🏃',mins:'',cal:''}; state.showManualExercise=false; save('exercises_'+today(),state.exercises);r();
+}
+function removeExercise(i){state.exercises=state.exercises.filter((_,j)=>j!==i);save('exercises_'+today(),state.exercises);r();}
+
+// Water Actions
+function setWaterType(t){state.waterType=t;r();}
+function setWaterGoal(v){state.waterGoal=+v||8;save('waterGoal',state.waterGoal);r();}
+function addWater(){
+  const opt=WATER_OPTS.find(o=>o.id===state.waterType);
+  state.glasses++; state.hydrationLog.push({...opt,id:Date.now(),time:new Date().toLocaleTimeString('en-NG',{hour:'2-digit',minute:'2-digit'})});
+  save('glasses_'+today(),state.glasses);save('hydrationLog_'+today(),state.hydrationLog);r();
+}
+function toggleManualWater(){state.showManualWater=!state.showManualWater;r();}
+function updateManualWater(k,v){state.manualWater[k]=v;}
+function addManualWater(){
+  if(!state.manualWater.name)return;
+  state.glasses++; state.hydrationLog.push({emoji:state.manualWater.emoji||'💧',name:state.manualWater.name,id:Date.now(),time:new Date().toLocaleTimeString('en-NG',{hour:'2-digit',minute:'2-digit'})});
+  state.manualWater={name:'',emoji:'💧'};state.showManualWater=false; save('glasses_'+today(),state.glasses);save('hydrationLog_'+today(),state.hydrationLog);r();
+}
+function resetWater(){state.glasses=0;state.hydrationLog=[];save('glasses_'+today(),0);save('hydrationLog_'+today(),[]);r();}
+function removeWater(id) {
+  if(state.hydrationLog.find(h => h.id === id)) {
+    state.glasses = Math.max(0, state.glasses - 1); state.hydrationLog = state.hydrationLog.filter(h => h.id !== id);
+    save('glasses_'+today(), state.glasses); save('hydrationLog_'+today(), state.hydrationLog); r();
+  }
+}
+
+// IF & Weight Actions
+function startIF(){state.ifStart=Date.now();state.ifActive=true;save('ifActive',true);save('ifStart',state.ifStart);r();}
+function endIF(){
+  if(!state.ifStart)return;
+  state.ifHistory.push({date:new Date().toLocaleDateString('en-NG',{day:'numeric',month:'short'}),hours:((Date.now()-state.ifStart)/3600000).toFixed(1),id:Date.now()});
+  state.ifActive=false;state.ifStart=null; save('ifHistory',state.ifHistory);save('ifActive',false);save('ifStart',null);r();
+}
+function removeFast(id) { state.ifHistory = state.ifHistory.filter(h => h.id !== id); save('ifHistory', state.ifHistory); r(); }
+
+function logWeight(){
+  const inp=document.getElementById('wInp'); const w=parseFloat(inp?inp.value:state.weightInput);
+  if(!w||isNaN(w))return;
+  state.weightLog.push({date:new Date().toLocaleDateString('en-NG',{day:'numeric',month:'short'}),weight:w,id:Date.now()});
+  state.weightInput=''; save('weightLog',state.weightLog);
+  const lost=+(PROFILE.startWeight-w).toFixed(2); const hit=MILESTONES.find(m=>lost>=m.kg&&lost<m.kg+0.3); if(hit)state.milestone=hit; r();
+}
+function removeWeight(id){state.weightLog=state.weightLog.filter(e=>e.id!==id);save('weightLog',state.weightLog);r();}
+function clearMilestone(){state.milestone=null;r();}
+
+setInterval(()=>{if(state.ifActive)r();},60000);
+r();
+</script>
+</body>
+</html>
