@@ -40,6 +40,7 @@ body { background: var(--bg); color: var(--text); padding: 14px 14px 90px; max-w
 input, textarea { background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px; width: 100%; outline: none; font-size: 14px; user-select: text;}
 input.text-left { text-align: left; }
 input::placeholder { color: #666; font-size: 11px; }
+input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
 .btn-log { background: var(--accent); color: #fff; padding: 10px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; }
 .btn-danger { background: #e84545; color: #fff; padding: 10px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; width: 100%; }
@@ -152,7 +153,13 @@ input::placeholder { color: #666; font-size: 11px; }
             <label>WATER</label><input type="number" id="homeHWat" style="margin-bottom:12px;">
             <label>SLEEP (Hrs)</label><input type="number" id="homeHSleep" style="margin-bottom:12px;">
             <label>STEPS</label><input type="number" id="homeHSteps" style="margin-bottom:12px;">
-            <label>DAILY PECULIARITIES</label><textarea id="homeHPec" style="height:60px; margin-bottom:20px;"></textarea>
+            
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding:12px; background:var(--card2); border-radius:10px; border:1px dashed var(--pink); cursor:pointer;">
+                <input type="checkbox" id="homeHCheat" style="width:20px; height:20px; accent-color:var(--pink);">
+                <span style="color:var(--pink); font-weight:700;">Mark as Cheat Day 🍕</span>
+            </label>
+
+            <label>DAILY PECULIARITIES / NOTES</label><textarea id="homeHPec" style="height:60px; margin-bottom:20px;"></textarea>
             
             <div class="grid2">
                 <button class="btn-log" onclick="saveHomeDay()">Update All</button>
@@ -234,6 +241,11 @@ input::placeholder { color: #666; font-size: 11px; }
             <button onclick="closeFoodLog()" style="background:none; color:#fff; font-size:30px; border:none; cursor:pointer;">✕</button>
         </div>
         <div class="card">
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding:12px; background:var(--card2); border-radius:10px; border:1px dashed var(--pink); cursor:pointer;">
+                <input type="checkbox" id="foodHCheat" style="width:20px; height:20px; accent-color:var(--pink);">
+                <span style="color:var(--pink); font-weight:700;">Mark as Cheat Day 🍕</span>
+            </label>
+
             <h3 style="margin-bottom: 10px; color:var(--gold);">Logged Meals</h3>
             <div id="foodOverlayFoodList" style="margin-bottom: 15px;"></div>
             
@@ -529,13 +541,13 @@ let history = JSON.parse(localStorage.getItem('mo_history')) || {};
 DAYS.forEach(d => { 
     if(!history[d]) {
         history[d] = {
-            cal:0, ex:0, wat:0, rit:0, sleep:0, steps:0, pec:'',
+            cal:0, ex:0, wat:0, rit:0, sleep:0, steps:0, pec:'', cheatDay: false,
             meals:[], prot:0, carb:0, fat:0, fib:0, oth:0,
             drinks:[], plain:0, lemon:0, tea:0, chia:0, othWat:0,
             fastHours:0, fasts:[]
         };
     } else {
-        // Ensure missing arrays/objects exist in older cache
+        if(history[d].cheatDay === undefined) history[d].cheatDay = false;
         if(!history[d].meals) history[d].meals = [];
         if(!history[d].drinks) history[d].drinks = [];
         if(!history[d].fasts) history[d].fasts = [];
@@ -591,7 +603,7 @@ function updateHomeUI() {
         const div = document.createElement('div');
         div.className = 'day-btn';
         div.onclick = () => openHomeLog(d);
-        div.innerHTML = `<span style="font-size:9px; color:${d===activeDay?'#f5a623':'#9a8fa0'}">${d}</span>
+        div.innerHTML = `<span style="font-size:9px; color:${d===activeDay?'#f5a623':'#9a8fa0'}">${dData.cheatDay ? '🍕 ' : ''}${d}</span>
             <div class="ring-stack" style="width:44px; height:44px;">
                 ${drawRing((dData.cal/1400)*100, '#e84585', 44, 3)}
                 <div style="position:absolute; inset:4px">${drawRing((dData.ex/300)*100, '#00d68f', 36, 3)}</div>
@@ -601,7 +613,7 @@ function updateHomeUI() {
         grid.appendChild(div);
         
         monitor.innerHTML += `<div class="mon-row" onclick="openHomeLog('${d}')">
-            <span>${d}</span> <span>👟 ${dData.steps}</span> <span>😴 ${dData.sleep}h</span> <span>${dData.pec ? '📝' : ''}</span>
+            <span>${dData.cheatDay ? '🍕 ' : ''}${d}</span> <span>👟 ${dData.steps}</span> <span>😴 ${dData.sleep}h</span> <span>${dData.pec ? '📝' : ''}</span>
         </div>`;
     });
     document.getElementById('homeRitualPct').innerText = Math.round((history[activeDay].rit / homeRituals.length) * 100) + '%';
@@ -645,9 +657,10 @@ function openHomeLog(day) {
     document.getElementById('homeHSleep').value = dData.sleep || "";
     document.getElementById('homeHSteps').value = dData.steps || "";
     document.getElementById('homeHPec').value = dData.pec || "";
+    document.getElementById('homeHCheat').checked = dData.cheatDay || false;
     document.getElementById('homeLogOverlay').style.display = 'block';
     initRituals();
-    updateAllUI(); // sync other visual active days
+    updateAllUI(); 
 }
 
 function saveHomeDay() {
@@ -657,13 +670,15 @@ function saveHomeDay() {
     history[activeDay].sleep = parseFloat(document.getElementById('homeHSleep').value) || 0;
     history[activeDay].steps = parseInt(document.getElementById('homeHSteps').value) || 0;
     history[activeDay].pec = document.getElementById('homeHPec').value;
+    history[activeDay].cheatDay = document.getElementById('homeHCheat').checked;
     closeHomeLog();
 }
 
 function deleteHomeDayLog() { 
     if(confirm("Wipe day?")) { 
         history[activeDay].cal=0; history[activeDay].ex=0; history[activeDay].wat=0; 
-        history[activeDay].rit=0; history[activeDay].sleep=0; history[activeDay].steps=0; history[activeDay].pec=''; 
+        history[activeDay].rit=0; history[activeDay].sleep=0; history[activeDay].steps=0; 
+        history[activeDay].pec=''; history[activeDay].cheatDay = false;
         initRituals(); closeHomeLog(); 
     } 
 }
@@ -684,7 +699,7 @@ function updateFoodUI() {
         const h = history[d];
         grid.innerHTML += `
             <div class="day-btn" onclick="openFoodLog('${d}')">
-                <span style="font-size:9px; color:${d===activeDay?'#e84585':'#9a8fa0'}; font-weight:700;">${d}</span>
+                <span style="font-size:9px; color:${d===activeDay?'#e84585':'#9a8fa0'}; font-weight:700;">${h.cheatDay ? '🍕 ' : ''}${d}</span>
                 <div class="ring-stack" style="width:48px; height:48px;">
                     ${drawRing((h.prot/FOOD_TARGETS.prot)*100, 'var(--accent)', 48, 3)}
                     <div style="position:absolute; inset:4px">${drawRing((h.carb/FOOD_TARGETS.carb)*100, 'var(--red)', 40, 3)}</div>
@@ -697,7 +712,7 @@ function updateFoodUI() {
 
     const isToday = activeDay === DAYS[new Date().getDay()];
     document.getElementById('foodActiveDayLabel').innerText = isToday ? "Today" : activeDay;
-    document.getElementById('foodMainLogTitle').innerText = isToday ? "📋 Today's Food Log" : `📋 ${activeDay}'s Food Log`;
+    document.getElementById('foodMainLogTitle').innerText = (isToday ? "📋 Today's Food Log" : `📋 ${activeDay}'s Food Log`) + (history[activeDay].cheatDay ? " 🍕" : "");
 
     const eaten = history[activeDay].cal;
     const remaining = Math.max(0, FOOD_TARGETS.cal - eaten);
@@ -777,6 +792,7 @@ function openFoodLog(day) {
     document.getElementById('foodHFat').value = h.fat || "";
     document.getElementById('foodHFib').value = h.fib || "";
     document.getElementById('foodHOth').value = h.oth || "";
+    document.getElementById('foodHCheat').checked = h.cheatDay || false;
     
     renderFoodOverlayMeals();
     document.getElementById('foodLogOverlay').style.display = 'block';
@@ -822,6 +838,7 @@ function saveFoodDay() {
     history[activeDay].fat = parseInt(document.getElementById('foodHFat').value) || 0;
     history[activeDay].fib = parseInt(document.getElementById('foodHFib').value) || 0;
     history[activeDay].oth = parseInt(document.getElementById('foodHOth').value) || 0;
+    history[activeDay].cheatDay = document.getElementById('foodHCheat').checked;
     closeFoodLog();
 }
 
@@ -830,7 +847,7 @@ function deleteFoodDayLog() {
         history[activeDay].cal = 0; history[activeDay].prot = 0;
         history[activeDay].carb = 0; history[activeDay].fat = 0;
         history[activeDay].fib = 0; history[activeDay].oth = 0;
-        history[activeDay].meals = [];
+        history[activeDay].meals = []; history[activeDay].cheatDay = false;
         closeFoodLog();
     }
 }
@@ -1023,24 +1040,45 @@ function updateFastingUI() {
 
 function renderTimerCard() {
     const container = document.getElementById('fastTimerContainer');
+    
     if (fastIsFasting && fastStartTime) {
+        const startDate = new Date(fastStartTime);
+        const tzOffset = startDate.getTimezoneOffset() * 60000;
+        const localISOTime = (new Date(fastStartTime - tzOffset)).toISOString().slice(0, 16);
+
         container.classList.add('timer-active');
         container.innerHTML = `
             <h2 style="color:#fff; margin-bottom:5px;">Fasting...</h2>
             <div id="fastLiveTimer" style="font-size:54px; font-weight:900; font-variant-numeric:tabular-nums; color:var(--accent); margin:10px 0;">00:00:00</div>
-            <div style="height:8px; background:rgba(255,255,255,0.1); border-radius:5px; margin-bottom:20px; overflow:hidden;">
+            <div style="height:8px; background:rgba(255,255,255,0.1); border-radius:5px; margin-bottom:15px; overflow:hidden;">
                 <div id="fastTimerProgress" style="width:0%; height:100%; background:linear-gradient(90deg, var(--accent), var(--blue)); transition: width 1s;"></div>
+            </div>
+            <div style="margin-bottom:15px; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <span style="font-size:11px; color:var(--sub);">Started:</span>
+                <input type="datetime-local" id="editFastStart" value="${localISOTime}" onchange="updateFastStartTime()" style="width:auto; padding:6px; font-size:11px; background:rgba(0,0,0,0.5); border:1px solid var(--purple);">
             </div>
             <button class="btn-danger" onclick="endFast()">⏹ End Fast & Log</button>
         `;
         if (!fastTimerInterval) fastTimerInterval = setInterval(updateLiveTimer, 1000);
         updateLiveTimer();
     } else {
+        const now = new Date();
+        const tzOffset = now.getTimezoneOffset() * 60000;
+        const localISOTime = (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 16);
+
         container.classList.remove('timer-active');
         container.innerHTML = `
             <div style="font-size:48px; margin-bottom:12px;">🌙</div>
-            <p style="color:var(--sub); font-size:13px; margin-bottom:20px;">Start your fast after your last meal (7 PM).</p>
-            <button class="btn-primary" onclick="startFast()">▶ Start Fasting</button>
+            <p style="color:var(--sub); font-size:13px; margin-bottom:15px;">Start your fast after your last meal (7 PM).</p>
+            <button class="btn-primary" style="margin-bottom:15px;" onclick="startFast()">▶ Start Fasting Now</button>
+            
+            <div style="border-top:1px solid var(--border); padding-top:15px; text-align:left;">
+                <label style="font-size:11px; color:var(--sub); font-weight:700; margin-bottom:8px; display:block;">FORGOT TO START? SET PAST TIME:</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="datetime-local" id="manualFastStart" value="${localISOTime}" style="flex:1; padding:10px; font-size:13px;">
+                    <button class="btn-green" style="width:auto; padding:10px 15px;" onclick="startFastManual()">Start</button>
+                </div>
+            </div>
         `;
         clearInterval(fastTimerInterval); fastTimerInterval = null;
     }
@@ -1050,6 +1088,26 @@ function startFast() {
     fastIsFasting = true; fastStartTime = Date.now();
     localStorage.setItem('mo_isFasting', JSON.stringify(fastIsFasting)); localStorage.setItem('mo_fastStartTime', JSON.stringify(fastStartTime));
     updateAllUI();
+}
+
+function startFastManual() {
+    const val = document.getElementById('manualFastStart').value;
+    if (!val) return;
+    const pastTime = new Date(val).getTime();
+    if (pastTime > Date.now()) { alert("Start time cannot be in the future!"); return; }
+    fastIsFasting = true; fastStartTime = pastTime;
+    localStorage.setItem('mo_isFasting', JSON.stringify(fastIsFasting)); localStorage.setItem('mo_fastStartTime', JSON.stringify(fastStartTime));
+    updateAllUI();
+}
+
+function updateFastStartTime() {
+    const val = document.getElementById('editFastStart').value;
+    if (!val) return;
+    const newTime = new Date(val).getTime();
+    if (newTime > Date.now()) { alert("Start time cannot be in the future!"); updateAllUI(); return; }
+    fastStartTime = newTime;
+    localStorage.setItem('mo_fastStartTime', JSON.stringify(fastStartTime));
+    updateLiveTimer();
 }
 
 function endFast() {
