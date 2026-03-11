@@ -41,6 +41,7 @@ body { background: var(--bg); color: var(--text); padding: 14px 14px 90px; max-w
 input, textarea { background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px; width: 100%; outline: none; font-size: 14px; user-select: text;}
 input.text-left { text-align: left; }
 input::placeholder { color: #666; font-size: 11px; }
+input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
 .btn-log { background: var(--accent); color: #fff; padding: 10px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; }
 .btn-danger { background: #e84545; color: #fff; padding: 10px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; width: 100%; }
@@ -98,6 +99,7 @@ input::placeholder { color: #666; font-size: 11px; }
     --r-cream: #FAF6EF; --r-warm-white: #FFFDF8; --r-sage: #7A9E7E; --r-sage-light: #A8C5AC;
     --r-sage-dark: #4A7150; --r-terracotta: #C4704A; --r-terracotta-light: #E8A882; --r-gold: #D4A843;
     --r-charcoal: #2C2C2C; --r-mid-grey: #6B6B6B; --r-light-grey: #E8E4DC;
+    --r-protein: #C4704A; --r-carbs: #D4A843; --r-veg: #7A9E7E; --r-water: #6BA3BE;
     
     background: var(--r-cream); color: var(--r-charcoal); font-family: 'DM Sans', sans-serif;
     border-radius: 20px; padding: 25px 20px; margin-bottom: 15px;
@@ -105,6 +107,22 @@ input::placeholder { color: #666; font-size: 11px; }
 .roster-block * { color: var(--r-charcoal); }
 .r-section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; color: var(--r-charcoal) !important;}
 .r-section-title::after { content: ''; flex: 1; height: 1px; background: var(--r-light-grey); }
+
+/* Plates */
+.r-plate-section { background: var(--r-warm-white); border-radius: 16px; padding: 20px; border: 1px solid var(--r-light-grey); margin-bottom: 20px;}
+.r-plate-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 10px; }
+@media(min-width: 400px) { .r-plate-grid { grid-template-columns: 1fr 1fr; } }
+.r-plate-card { text-align: center; }
+.r-plate-card .r-meal-label { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--r-terracotta); margin-bottom: 8px; }
+.r-plate-card .r-meal-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.r-plate-card .r-meal-cals { font-size: 11px; color: var(--r-mid-grey); margin-bottom: 16px; }
+.r-plate-svg-wrap { width: 140px; height: 140px; margin: 0 auto 16px; position: relative; }
+.r-plate-items { text-align: left; }
+.r-plate-item { display: flex; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 5px; }
+.r-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.r-legend { display: flex; justify-content: center; gap: 15px; padding: 12px; background: var(--r-cream); border-radius: 12px; flex-wrap: wrap; margin-top:20px; }
+.r-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; }
+.r-legend-swatch { width: 14px; height: 14px; border-radius: 4px; }
 
 /* Cals Bar */
 .r-cal-section { background: var(--r-charcoal); border-radius: 20px; padding: 20px; color: white; margin-bottom: 15px;}
@@ -125,25 +143,7 @@ input::placeholder { color: #666; font-size: 11px; }
 .r-day-icon { font-size: 16px; margin-bottom: 6px; display: block; }
 .r-day-type { font-size: 8px; color: var(--r-mid-grey); font-weight: 500; line-height: 1.2; }
 
-/* Timeline & Rules */
-.r-timeline { position: relative; padding-left: 25px; }
-.r-timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--r-sage-light), var(--r-terracotta-light)); border-radius: 2px; }
-.r-timeline-item { position: relative; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 12px; }
-.r-timeline-dot { position: absolute; left: -25px; top: 6px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 2px var(--r-sage); background: var(--r-sage); flex-shrink: 0; }
-.r-timeline-dot.ex { background: var(--r-terracotta); box-shadow: 0 0 0 2px var(--r-terracotta); }
-.r-timeline-dot.ml { background: var(--r-gold); box-shadow: 0 0 0 2px var(--r-gold); }
-.r-timeline-time { font-size: 10px; font-weight: 600; color: var(--r-mid-grey); min-width: 50px; padding-top: 2px; }
-.r-timeline-content { background: white; border-radius: 12px; padding: 10px 12px; flex: 1; border: 1px solid var(--r-light-grey); }
-.r-timeline-content strong { display: block; font-size: 12px; font-weight: 600; margin-bottom: 2px; }
-.r-timeline-content span { font-size: 10px; color: var(--r-mid-grey); }
-
-.r-tips-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-@media(min-width: 400px) { .r-tips-grid { grid-template-columns: 1fr 1fr 1fr; } }
-.r-tip-card { background: white; border-radius: 12px; padding: 15px; border: 1px solid var(--r-light-grey); border-top: 3px solid var(--r-sage); }
-.r-tip-card:nth-child(2) { border-top-color: var(--r-terracotta); }
-.r-tip-card:nth-child(3) { border-top-color: var(--r-gold); }
-.r-tip-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-
+/* Progress */
 .r-progress-section { background: linear-gradient(135deg, var(--r-sage-dark), var(--r-sage)); border-radius: 20px; padding: 20px; color: white; }
 .r-progress-section * { color: white; }
 .r-progress-section .r-section-title::after { background: rgba(255,255,255,0.2); }
@@ -281,22 +281,13 @@ input::placeholder { color: #666; font-size: 11px; }
         </div>
     </div>
 
-    <div class="roster-block r-cal-section">
-        <div class="r-section-title">📊 Daily Calorie Breakdown</div>
-        <div class="r-cal-row"><div class="r-cal-label">Breakfast</div><div class="r-cal-bar-wrap"><div style="height:100%;width:24%;background:var(--r-terracotta-light);border-radius:3px;"></div></div><div class="r-cal-value">350 kcal</div></div>
-        <div class="r-cal-row"><div class="r-cal-label">Snacks (2)</div><div class="r-cal-bar-wrap"><div style="height:100%;width:14%;background:var(--r-gold);border-radius:3px;"></div></div><div class="r-cal-value">200 kcal</div></div>
-        <div class="r-cal-row"><div class="r-cal-label">Lunch</div><div class="r-cal-bar-wrap"><div style="height:100%;width:31%;background:var(--r-sage-light);border-radius:3px;"></div></div><div class="r-cal-value">450 kcal</div></div>
-        <div class="r-cal-row"><div class="r-cal-label">Dinner</div><div class="r-cal-bar-wrap"><div style="height:100%;width:31%;background:var(--r-sage);border-radius:3px;"></div></div><div class="r-cal-value">450 kcal</div></div>
-        <div class="r-cal-row" style="border-top:1px solid rgba(255,255,255,0.15);padding-top:12px;margin-top:4px;"><div class="r-cal-label" style="font-weight:700;">TOTAL</div><div class="r-cal-bar-wrap"><div style="height:100%;width:100%;background:linear-gradient(90deg,var(--r-terracotta-light),var(--r-gold),var(--r-sage));border-radius:3px;"></div></div><div class="r-cal-value" style="font-size:14px;">1,450 kcal</div></div>
-    </div>
-
     <div class="pink-card">
         <h3 style="color:var(--text); margin-bottom:12px;">✏️ Quick Meal Log</h3>
         
         <div style="margin-bottom:12px; display:flex; align-items:center; gap:10px;">
             <label style="background:var(--card2); border:1px solid var(--pink); color:var(--pink); padding:8px 12px; border-radius:10px; font-size:12px; cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:5px;">
                 📷 Add Photo
-                <input type="file" accept="image/*" capture="environment" id="foodImageInput" style="display:none;" onchange="processFoodImage(event)">
+                <input type="file" accept="image/*" id="foodImageInput" style="display:none;" onchange="processFoodImage(event)">
             </label>
             <img id="foodImagePreview" style="display:none; width:34px; height:34px; border-radius:6px; object-fit:cover; border:1px solid var(--border);">
             <span id="foodImageStatus" style="font-size:11px; color:var(--sub); display:none;">Ready!</span>
@@ -316,48 +307,9 @@ input::placeholder { color: #666; font-size: 11px; }
         <button class="btn-pink" onclick="logFoodMeal('quick')">+ Log Meal</button>
     </div>
 
-    <div class="plan-card">
-        <h3 style="color:var(--text); margin-bottom:4px;">📅 Meal Plan Logger</h3>
-        <div class="grid-2-1">
-            <input type="text" id="foodMpName" class="text-left" placeholder="Planned Meal (e.g. Keto Bowl)">
-            <input type="number" id="foodMpCal" placeholder="kcal" style="text-align:center;">
-        </div>
-        <div class="grid5">
-            <input type="number" id="foodMpProt" placeholder="Prot" style="text-align:center;">
-            <input type="number" id="foodMpCarb" placeholder="Carb" style="text-align:center;">
-            <input type="number" id="foodMpFat" placeholder="Fat" style="text-align:center;">
-            <input type="number" id="foodMpFib" placeholder="Fib" style="text-align:center;">
-            <input type="number" id="foodMpOth" placeholder="Oth" style="text-align:center;">
-        </div>
-        <button class="btn-green" onclick="logFoodMeal('plan')">+ Add to Plan</button>
-    </div>
-
     <div class="card">
         <h3 style="margin-bottom:10px;" id="foodMainLogTitle">📋 Today's Food Log</h3>
         <div id="foodList"></div>
-    </div>
-
-    <div class="roster-block">
-        <div class="r-section-title">⏰ Your Daily Routine</div>
-        <div class="r-timeline">
-            <div class="r-timeline-item"><div class="r-timeline-dot ex"></div><div class="r-timeline-time">6:30am</div><div class="r-timeline-content"><strong>🏃 Morning Workout</strong><span>25 min home workout before work — highest energy burn of the day</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">7:00am</div><div class="r-timeline-content"><strong>🍳 Breakfast</strong><span>Eggs + toast + fruit · Eat within 60 min of waking</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">10:00am</div><div class="r-timeline-content"><strong>🧘 Desk Break + Snack</strong><span>Stand, stretch 5 mins · Apple or almonds · 500ml water</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">1:00pm</div><div class="r-timeline-content"><strong>🥗 Lunch Break</strong><span>Half plate veg + protein + carbs · Short 10 min walk after</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">3:30pm</div><div class="r-timeline-content"><strong>🥚 Afternoon Snack</strong><span>Greek yogurt or boiled egg · Stand and move for 5 mins</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ex"></div><div class="r-timeline-time">6:00pm</div><div class="r-timeline-content"><strong>✅ Work Ends</strong><span>Evening walk 20 mins (optional but ideal for fat burning)</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">7:00pm</div><div class="r-timeline-content"><strong>🍽 Dinner</strong><span>More veg, less carbs than lunch · No eating after 8:30pm</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">10:00pm</div><div class="r-timeline-content"><strong>😴 Sleep</strong><span>8 hours sleep = better fat loss hormones</span></div></div>
-        </div>
-    </div>
-
-    <div class="roster-block">
-        <div class="r-section-title">💡 Remote Worker Rules</div>
-        <div class="r-tips-grid">
-            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">🚰</span><div class="r-tip-title">Drink Before Eating</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">500ml water before every meal. Reduces hunger by 20% naturally.</div></div>
-            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">📦</span><div class="r-tip-title">Meal Prep Sunday</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">Pre-portion lunch/snacks. Work stress = bad food choices without prep.</div></div>
-            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">🪑</span><div class="r-tip-title">Never Eat at Desk</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">Sit at a table, screen-free. You'll naturally eat less and feel satisfied.</div></div>
-        </div>
     </div>
 
     <div id="foodLogOverlay" class="overlay">
@@ -484,6 +436,7 @@ input::placeholder { color: #666; font-size: 11px; }
     </div>
 </div>
 
+
 <div id="tab-move" class="tab-content">
     <div class="header">
         <div class="flex-sb">
@@ -539,10 +492,14 @@ input::placeholder { color: #666; font-size: 11px; }
 
     <div class="card" style="background:rgba(0, 214, 143, 0.05); border-color:var(--accent);">
         <h3 style="color:var(--text); margin-bottom:4px;">🏃 Log Workout</h3>
-        <div class="grid3" style="gap:8px; margin-bottom:12px; margin-top:12px;">
-            <input type="text" id="moveName" class="text-left" placeholder="e.g. HIIT">
-            <input type="number" id="moveMin" placeholder="Mins" style="text-align:center;">
-            <input type="number" id="moveCal" placeholder="Kcal" style="text-align:center;">
+        <div class="grid2" style="gap:8px; margin-bottom:8px; margin-top:12px;">
+            <input type="text" id="moveName" class="text-left" placeholder="Workout Name (e.g. HIIT)">
+            <input type="number" id="moveCal" placeholder="Kcal Burned" style="text-align:center;">
+        </div>
+        <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <input type="number" id="moveHr" placeholder="Hr" style="text-align:center; flex:1;" min="0">
+            <input type="number" id="moveMin" placeholder="Min" style="text-align:center; flex:1;" min="0" max="59">
+            <input type="number" id="moveSec" placeholder="Sec" style="text-align:center; flex:1;" min="0" max="59">
         </div>
         <button class="btn-green" onclick="logWorkout()">+ Log Exercise</button>
     </div>
@@ -682,7 +639,7 @@ let activeDay = DAYS[new Date().getDay()];
 
 // Targets
 const EX_TARGET = 300;
-const FOOD_TARGETS = { cal: 1450, prot: 100, carb: 150, fat: 50, fib: 25, oth: 50 }; // Adjusted to 1450 based on poster
+const FOOD_TARGETS = { cal: 1450, prot: 100, carb: 150, fat: 50, fib: 25, oth: 50 }; 
 const HYD_TARGETS = { total: 8, plain: 4, lemon: 2, tea: 1, chia: 1, oth: 1 };
 
 const STATS_PROFILE = { startWeight: 71.0, goalWeight: 61.0, heightCm: 160.0 }; 
@@ -1073,16 +1030,30 @@ function updateMoveUI() {
     else {
         list.innerHTML = '';
         history[activeDay].workouts.forEach((w, index) => {
-            list.innerHTML += `<div class="fast-row"><div><span style="font-size:16px; margin-right:8px;">🔥</span><span style="font-weight:700;">${w.name}</span><div style="font-size:10px; color:var(--sub); margin-top:2px;">${w.min} min</div></div><div class="flex-sb" style="gap:15px;"><span style="color:var(--accent); font-weight:700;">${w.cal} kcal</span><button class="del-btn" onclick="deleteWorkout(${index})">✕</button></div></div>`;
+            const timeStr = w.duration || w.min + ' min';
+            list.innerHTML += `<div class="fast-row"><div><span style="font-size:16px; margin-right:8px;">🔥</span><span style="font-weight:700;">${w.name}</span><div style="font-size:10px; color:var(--sub); margin-top:2px;">${timeStr}</div></div><div class="flex-sb" style="gap:15px;"><span style="color:var(--accent); font-weight:700;">${w.cal} kcal</span><button class="del-btn" onclick="deleteWorkout(${index})">✕</button></div></div>`;
         });
     }
 }
 
 function logWorkout() {
-    const name = document.getElementById('moveName').value; const min = parseInt(document.getElementById('moveMin').value) || 0; const cal = parseInt(document.getElementById('moveCal').value) || 0;
+    const name = document.getElementById('moveName').value; 
+    const hr = parseInt(document.getElementById('moveHr').value) || 0; 
+    const min = parseInt(document.getElementById('moveMin').value) || 0; 
+    const sec = parseInt(document.getElementById('moveSec').value) || 0; 
+    const cal = parseInt(document.getElementById('moveCal').value) || 0;
+    
     if (name && cal) {
-        history[activeDay].workouts.push({ name: name, min: min, cal: cal }); history[activeDay].ex += cal;
-        document.getElementById('moveName').value = ''; document.getElementById('moveMin').value = ''; document.getElementById('moveCal').value = ''; updateAllUI();
+        const durationStr = String(hr).padStart(2, '0') + ':' + String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+        history[activeDay].workouts.push({ name: name, duration: durationStr, cal: cal }); 
+        history[activeDay].ex += cal;
+        
+        document.getElementById('moveName').value = ''; 
+        document.getElementById('moveHr').value = ''; 
+        document.getElementById('moveMin').value = ''; 
+        document.getElementById('moveSec').value = ''; 
+        document.getElementById('moveCal').value = ''; 
+        updateAllUI();
     } else alert("Please enter workout name and kcal burned.");
 }
 
@@ -1103,7 +1074,8 @@ function renderMoveOverlay() {
     else {
         list.innerHTML = '';
         history[activeDay].workouts.forEach((w, index) => {
-            list.innerHTML += `<div class="fast-row" style="padding: 8px 0;"><div><span style="font-size:16px;">🔥</span> <span style="margin-left:5px; font-weight:700;">${w.name} (${w.min}m)</span></div><div class="flex-sb" style="gap:15px;"><span style="color:var(--accent); font-weight:700;">${w.cal} kcal</span><button class="del-btn" onclick="deleteOverlayWorkout(${index})">✕</button></div></div>`;
+            const timeStr = w.duration || w.min + 'm';
+            list.innerHTML += `<div class="fast-row" style="padding: 8px 0;"><div><span style="font-size:16px;">🔥</span> <span style="margin-left:5px; font-weight:700;">${w.name} (${timeStr})</span></div><div class="flex-sb" style="gap:15px;"><span style="color:var(--accent); font-weight:700;">${w.cal} kcal</span><button class="del-btn" onclick="deleteOverlayWorkout(${index})">✕</button></div></div>`;
         });
     }
 }
