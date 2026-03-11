@@ -41,7 +41,6 @@ body { background: var(--bg); color: var(--text); padding: 14px 14px 90px; max-w
 input, textarea { background: #000; color: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px; width: 100%; outline: none; font-size: 14px; user-select: text;}
 input.text-left { text-align: left; }
 input::placeholder { color: #666; font-size: 11px; }
-input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
 .btn-log { background: var(--accent); color: #fff; padding: 10px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; }
 .btn-danger { background: #e84545; color: #fff; padding: 10px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; width: 100%; }
@@ -51,7 +50,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
 .btn-blue { background: var(--blue); color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; width: 100%; }
 .btn-purple { background: var(--purple); color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; width: 100%; }
 .btn-gold { background: var(--gold); color: #000; padding: 12px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer; width: 100%; }
-.btn-primary { background: linear-gradient(135deg, #00d68f, #3498db); color: #fff; padding: 14px; border-radius: 14px; font-weight: 800; border: none; cursor: pointer; width: 100%; font-size: 15px; }
 .del-btn { background: none; color: #e84545; border: none; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 5px; }
 
 /* Lists & Rows */
@@ -73,8 +71,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
 .pink-card { background: rgba(232, 69, 133, 0.05); border: 2px solid var(--pink); border-radius: 20px; padding: 16px; margin-bottom: 15px; }
 .plan-card { background: rgba(0, 214, 143, 0.05); border: 2px solid var(--accent); border-radius: 20px; padding: 16px; margin-bottom: 15px; }
 .tea-card { background: rgba(155, 89, 182, 0.05); border: 2px solid var(--purple); border-radius: 20px; padding: 16px; margin-bottom: 15px; }
-.timer-card { background: linear-gradient(135deg, rgba(0,214,143,0.1), rgba(52,152,219,0.1)); border: 1px solid var(--accent); text-align: center; }
-.timer-active { background: linear-gradient(135deg, #0f3460, #533483); border: 1px solid var(--purple); }
 
 .drink-opt { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 5px; text-align: center; cursor: pointer; transition: 0.2s; }
 .drink-opt.active { border-color: var(--blue); background: rgba(52, 152, 219, 0.1); }
@@ -92,7 +88,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
 
 .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px; background: var(--card); border-top: 1px solid var(--border); display: flex; justify-content: space-between; padding: 12px 10px 20px; z-index: 50; }
 .tab-btn { background: none; border: none; color: var(--sub); font-size: 20px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: 0.2s; flex: 1;}
-.tab-btn span { font-size: 9px; font-weight: 700; }
+.tab-btn span { font-size: 9px; font-weight: 700; margin-top:2px; }
 .tab-btn.active { color: var(--accent); transform: translateY(-2px);}
 
 /* ==================================================== */
@@ -102,34 +98,13 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
     --r-cream: #FAF6EF; --r-warm-white: #FFFDF8; --r-sage: #7A9E7E; --r-sage-light: #A8C5AC;
     --r-sage-dark: #4A7150; --r-terracotta: #C4704A; --r-terracotta-light: #E8A882; --r-gold: #D4A843;
     --r-charcoal: #2C2C2C; --r-mid-grey: #6B6B6B; --r-light-grey: #E8E4DC;
-    --r-protein: #C4704A; --r-carbs: #D4A843; --r-veg: #7A9E7E; --r-water: #6BA3BE;
     
-    background: var(--r-cream);
-    color: var(--r-charcoal);
-    font-family: 'DM Sans', sans-serif;
-    border-radius: 20px;
-    padding: 25px 20px;
-    margin-bottom: 15px;
+    background: var(--r-cream); color: var(--r-charcoal); font-family: 'DM Sans', sans-serif;
+    border-radius: 20px; padding: 25px 20px; margin-bottom: 15px;
 }
 .roster-block * { color: var(--r-charcoal); }
 .r-section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; color: var(--r-charcoal) !important;}
 .r-section-title::after { content: ''; flex: 1; height: 1px; background: var(--r-light-grey); }
-
-/* Plates */
-.r-plate-section { background: var(--r-warm-white); border-radius: 16px; padding: 20px; border: 1px solid var(--r-light-grey); margin-bottom: 20px;}
-.r-plate-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 10px; }
-@media(min-width: 400px) { .r-plate-grid { grid-template-columns: 1fr 1fr; } }
-.r-plate-card { text-align: center; }
-.r-plate-card .r-meal-label { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--r-terracotta); margin-bottom: 8px; }
-.r-plate-card .r-meal-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.r-plate-card .r-meal-cals { font-size: 11px; color: var(--r-mid-grey); margin-bottom: 16px; }
-.r-plate-svg-wrap { width: 140px; height: 140px; margin: 0 auto 16px; position: relative; }
-.r-plate-items { text-align: left; }
-.r-plate-item { display: flex; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 5px; }
-.r-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.r-legend { display: flex; justify-content: center; gap: 15px; padding: 12px; background: var(--r-cream); border-radius: 12px; flex-wrap: wrap; margin-top:20px; }
-.r-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; }
-.r-legend-swatch { width: 14px; height: 14px; border-radius: 4px; }
 
 /* Cals Bar */
 .r-cal-section { background: var(--r-charcoal); border-radius: 20px; padding: 20px; color: white; margin-bottom: 15px;}
@@ -177,6 +152,24 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
 .r-milestone-week { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
 .r-milestone-result { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--r-gold); margin-bottom: 2px; }
 .r-milestone-desc { font-size: 10px; color: rgba(255,255,255,0.8); line-height: 1.3; }
+
+/* ==================================================== */
+/* GROCERY TAB STYLES                                   */
+/* ==================================================== */
+.grocery-cat { margin-bottom: 20px; }
+.grocery-cat-title { font-size: 12px; font-weight: 800; color: var(--gold); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+.g-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--card2); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+.g-item.checked { opacity: 0.5; border-color: var(--border); }
+.g-item.checked .g-name { text-decoration: line-through; }
+.g-name { font-size: 13px; font-weight: 600; color: var(--text); display: block; margin-bottom: 2px; }
+.g-desc { font-size: 10px; color: var(--sub); display: block; }
+.g-cb { width: 20px; height: 20px; border: 2px solid var(--sub); border-radius: 4px; display: flex; justify-content: center; align-items: center; }
+.g-item.checked .g-cb { background: var(--accent); border-color: var(--accent); }
+.g-item.checked .g-cb::after { content: '✓'; color: white; font-size: 12px; }
+
+/* Home Screen Additions */
+.mood-btn { background: var(--card2); border: 1px solid var(--border); font-size: 24px; padding: 10px; border-radius: 15px; cursor: pointer; transition: 0.2s; width: 18%; }
+.mood-btn.active { background: rgba(0, 214, 143, 0.1); border-color: var(--accent); transform: scale(1.1); }
 </style>
 </head>
 <body>
@@ -190,29 +183,44 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
         <div class="week-grid" id="homeWeekGrid"></div>
     </div>
 
+    <div class="grid3" style="gap:8px;">
+        <div class="card" style="padding:12px; text-align:center; margin-bottom:0;">
+            <div style="font-size:10px; color:var(--sub); font-weight:700;">KCAL LEFT</div>
+            <div id="homeSnapKcal" style="font-size:20px; font-weight:900; color:var(--pink); margin-top:4px;">0</div>
+        </div>
+        <div class="card" style="padding:12px; text-align:center; margin-bottom:0;">
+            <div style="font-size:10px; color:var(--sub); font-weight:700;">WATER</div>
+            <div style="font-size:20px; font-weight:900; color:var(--blue); margin-top:4px;"><span id="homeSnapWat">0</span><span style="font-size:12px; color:var(--sub);">/8</span></div>
+        </div>
+        <div class="card" style="padding:12px; text-align:center; margin-bottom:0;">
+            <div style="font-size:10px; color:var(--sub); font-weight:700;">BURNED</div>
+            <div id="homeSnapEx" style="font-size:20px; font-weight:900; color:var(--accent); margin-top:4px;">0</div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="flex-sb" style="display:flex; justify-content:space-between; margin-bottom:15px;">
-            <h3>👤 Rituals</h3>
+            <h3>👤 Daily Rituals</h3>
             <span id="homeRitualPct" style="color:var(--accent); font-weight:700;">0%</span>
         </div>
         <div id="homeRitualsContainer"></div>
         <button class="btn-add" onclick="addNewRitual()">+ Add Custom Ritual</button>
     </div>
 
-    <div class="grid2">
-        <div class="card">
-            <h3>😴 Sleep</h3>
-            <div style="display:flex; gap:6px; margin-top:8px;"><input type="number" id="homeSleepIn" placeholder="Hrs"><button class="btn-log" onclick="quickLog('sleep')">Log</button></div>
-        </div>
-        <div class="card">
-            <h3>👟 Steps</h3>
-            <div style="display:flex; gap:6px; margin-top:8px;"><input type="number" id="homeStepIn" placeholder="Add"><button class="btn-log" onclick="quickLog('steps')">+</button></div>
+    <div class="card">
+        <h3 style="margin-bottom:12px; font-size:14px;">How are you feeling today?</h3>
+        <div style="display:flex; justify-content:space-between;">
+            <button class="mood-btn" id="mood-1" onclick="setMood(1)">😫</button>
+            <button class="mood-btn" id="mood-2" onclick="setMood(2)">🙁</button>
+            <button class="mood-btn" id="mood-3" onclick="setMood(3)">😐</button>
+            <button class="mood-btn" id="mood-4" onclick="setMood(4)">🙂</button>
+            <button class="mood-btn" id="mood-5" onclick="setMood(5)">🤩</button>
         </div>
     </div>
 
-    <div class="card">
-        <h3>📈 Week Monitor (Tap to Edit)</h3>
-        <div id="homeMonitorList" style="margin-top:10px;"></div>
+    <div class="card" style="border-color:var(--gold);">
+        <h3 style="margin-bottom:8px; font-size:14px; color:var(--gold);">Daily Intention</h3>
+        <textarea id="homeIntention" placeholder="What is your focus for today? (e.g. Drink more water, stay positive...)" style="height:60px; background:var(--card2); border:none;" onblur="saveHomeData()"></textarea>
     </div>
 
     <div id="homeLogOverlay" class="overlay">
@@ -221,23 +229,19 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
             <button onclick="closeHomeLog()" style="background:none; color:#fff; font-size:30px; border:none;">✕</button>
         </div>
         <div class="card">
-            <label>CALORIES</label><input type="number" id="homeHCal" style="margin-bottom:12px;">
-            <label>EXERCISE (kcal/min)</label><input type="number" id="homeHEx" style="margin-bottom:12px;">
-            <label>WATER</label><input type="number" id="homeHWat" style="margin-bottom:12px;">
-            <label>SLEEP (Hrs)</label><input type="number" id="homeHSleep" style="margin-bottom:12px;">
-            <label>STEPS</label><input type="number" id="homeHSteps" style="margin-bottom:12px;">
-            
             <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding:12px; background:var(--card2); border-radius:10px; border:1px dashed var(--pink); cursor:pointer;">
                 <input type="checkbox" id="homeHCheat" style="width:20px; height:20px; accent-color:var(--pink);">
                 <span style="color:var(--pink); font-weight:700;">Mark as Cheat Day 🍕</span>
             </label>
-
-            <label>DAILY PECULIARITIES / NOTES</label><textarea id="homeHPec" style="height:60px; margin-bottom:20px;"></textarea>
-            
+            <label>DAILY PECULIARITIES / NOTES</label><textarea id="homeHPec" style="height:80px; margin-bottom:20px;"></textarea>
             <div class="grid2">
-                <button class="btn-log" onclick="saveHomeDay()">Update All</button>
+                <button class="btn-log" onclick="saveHomeDataOverlay()">Update Note</button>
                 <button class="btn-danger" onclick="deleteHomeDayLog()">Wipe Day</button>
             </div>
+            
+            <input type="hidden" id="homeHCal"><input type="hidden" id="homeHEx">
+            <input type="hidden" id="homeHWat"><input type="hidden" id="homeHSleep">
+            <input type="hidden" id="homeHSteps">
         </div>
     </div>
 </div>
@@ -260,10 +264,20 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
     <div class="card">
         <div class="flex-sb" style="margin-bottom:10px;">
             <div><div style="font-size:12px; color:var(--sub); font-weight:700;">EATEN (<span id="foodActiveDayLabel">Today</span>)</div><div id="foodCalsEaten" style="font-weight:900; color:var(--pink); font-size:24px;">0</div></div>
-            <div style="text-align:right;"><div style="font-size:12px; color:var(--sub); font-weight:700;">REMAINING</div><div id="foodCalsLeft" style="font-weight:900; color:var(--accent); font-size:24px;">1400</div></div>
+            <div style="text-align:right;"><div style="font-size:12px; color:var(--sub); font-weight:700;">REMAINING</div><div id="foodCalsLeft" style="font-weight:900; color:var(--accent); font-size:24px;">1450</div></div>
         </div>
         <div style="height:8px; background:var(--border); border-radius:10px; overflow:hidden;">
             <div id="foodCalBar" style="height:100%; background:var(--pink); width:0%; transition: width 0.3s;"></div>
+        </div>
+    </div>
+
+    <div class="card" style="border-left: 4px solid var(--accent); background: linear-gradient(135deg, rgba(0, 214, 143, 0.05) 0%, transparent 100%);">
+        <h3 style="margin-bottom:12px; color:var(--accent);">📅 <span id="planDayLabel">Today's</span> Menu Plan</h3>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="font-size:13px; line-height:1.4;"><strong style="color:var(--gold);">Breakfast:</strong> <span id="planBfast"></span></div>
+            <div style="font-size:13px; line-height:1.4;"><strong style="color:#A8C5AC;">Lunch:</strong> <span id="planLunch"></span></div>
+            <div style="font-size:13px; line-height:1.4;"><strong style="color:var(--blue);">Dinner:</strong> <span id="planDinner"></span></div>
+            <div style="font-size:13px; line-height:1.4;"><strong style="color:#E8A882;">Snacks:</strong> <span id="planSnack"></span></div>
         </div>
     </div>
 
@@ -285,7 +299,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
                 <input type="file" accept="image/*" capture="environment" id="foodImageInput" style="display:none;" onchange="processFoodImage(event)">
             </label>
             <img id="foodImagePreview" style="display:none; width:34px; height:34px; border-radius:6px; object-fit:cover; border:1px solid var(--border);">
-            <span id="foodImageStatus" style="font-size:11px; color:var(--sub); display:none;">Ready to log!</span>
+            <span id="foodImageStatus" style="font-size:11px; color:var(--sub); display:none;">Ready!</span>
         </div>
 
         <div class="grid-2-1">
@@ -324,93 +338,25 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
     </div>
 
     <div class="roster-block">
-        <div class="r-plate-section">
-            <div class="r-section-title">🍽 Portion Control Guide</div>
-            <div class="r-plate-grid">
-                <div class="r-plate-card">
-                    <div class="r-meal-label">Morning · 7:00am</div>
-                    <div class="r-meal-name">Breakfast</div>
-                    <div class="r-meal-cals">~350 kcal</div>
-                    <div class="r-plate-svg-wrap">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="140" height="140">
-                            <ellipse cx="100" cy="108" rx="88" ry="10" fill="rgba(0,0,0,0.07)"/><circle cx="100" cy="100" r="88" fill="#F0EDE8"/><circle cx="100" cy="100" r="84" fill="none" stroke="#DDD8D0" stroke-width="1.5"/><circle cx="100" cy="100" r="72" fill="white"/>
-                            <path d="M100,100 L100,28 A72,72 0 0,1 172,100 Z" fill="#E8C4A8" opacity="0.9"/><path d="M100,100 L172,100 A72,72 0 0,1 100,172 Z" fill="#E8C87A" opacity="0.85"/><path d="M100,100 L100,172 A72,72 0 0,1 28,100 Z" fill="#A8C5AC" opacity="0.85"/><path d="M100,100 L28,100 A72,72 0 0,1 100,28 Z" fill="#A8C5AC" opacity="0.6"/>
-                            <line x1="100" y1="28" x2="100" y2="172" stroke="white" stroke-width="2"/><line x1="28" y1="100" x2="172" y2="100" stroke="white" stroke-width="2"/>
-                            <ellipse cx="130" cy="70" rx="14" ry="11" fill="white" opacity="0.9"/><circle cx="130" cy="70" r="5" fill="#F5C842" opacity="0.95"/><rect x="118" y="115" width="22" height="16" rx="3" fill="#C4904A" opacity="0.9"/><line x1="122" y1="119" x2="136" y2="119" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><line x1="122" y1="123" x2="136" y2="123" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><circle cx="68" cy="130" r="9" fill="#E85C5C" opacity="0.85"/><circle cx="78" cy="128" r="7" fill="#E87C5C" opacity="0.8"/><rect x="60" y="64" width="12" height="18" rx="2" fill="#6BA3BE" opacity="0.7"/><rect x="60" y="64" width="12" height="6" rx="2" fill="#A8D4E8" opacity="0.6"/>
-                            <circle cx="100" cy="100" r="14" fill="white" stroke="#E8E4DC" stroke-width="1.5"/><text x="100" y="104" text-anchor="middle" font-size="14" font-family="DM Sans">🌅</text>
-                        </svg>
-                    </div>
-                    <div class="r-plate-items">
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-protein)"></div>2 eggs scrambled</div>
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-carbs)"></div>1 slice whole grain toast</div>
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-veg)"></div>Banana or berries</div>
-                    </div>
-                </div>
-
-                <div class="r-plate-card">
-                    <div class="r-meal-label">Midday · 1:00pm</div>
-                    <div class="r-meal-name">Lunch</div>
-                    <div class="r-meal-cals">~450 kcal</div>
-                    <div class="r-plate-svg-wrap">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="140" height="140">
-                            <ellipse cx="100" cy="108" rx="88" ry="10" fill="rgba(0,0,0,0.07)"/><circle cx="100" cy="100" r="88" fill="#F0EDE8"/><circle cx="100" cy="100" r="84" fill="none" stroke="#DDD8D0" stroke-width="1.5"/><circle cx="100" cy="100" r="72" fill="white"/>
-                            <path d="M100,100 L28,100 A72,72 0 1,1 100,172 Z" fill="#A8C5AC" opacity="0.85"/><path d="M100,100 L100,28 A72,72 0 0,1 172,100 Z" fill="#C4704A" opacity="0.8"/><path d="M100,100 L172,100 A72,72 0 0,1 100,172 Z" fill="#D4A843" opacity="0.8"/>
-                            <line x1="100" y1="28" x2="100" y2="172" stroke="white" stroke-width="2.5"/><line x1="28" y1="100" x2="172" y2="100" stroke="white" stroke-width="2.5"/>
-                            <text x="62" y="90" text-anchor="middle" font-size="11" font-weight="700" fill="white" opacity="0.95">½</text><text x="62" y="103" text-anchor="middle" font-size="9" fill="white" opacity="0.85">VEG</text><text x="138" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="white" opacity="0.95">¼</text><text x="138" y="84" text-anchor="middle" font-size="8" fill="white" opacity="0.85">PROTEIN</text><text x="138" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="white" opacity="0.95">¼</text><text x="138" y="142" text-anchor="middle" font-size="8" fill="white" opacity="0.85">CARBS</text>
-                            <circle cx="55" cy="105" r="7" fill="#5A8A5E" opacity="0.7"/><circle cx="68" cy="98" r="5" fill="#6A9A6E" opacity="0.7"/><circle cx="58" cy="118" r="6" fill="#8ABF8E" opacity="0.65"/><circle cx="72" cy="115" r="8" fill="#C43A3A" opacity="0.6"/><circle cx="45" cy="88" r="5" fill="#E8A020" opacity="0.65"/>
-                            <ellipse cx="135" cy="65" rx="18" ry="12" fill="#C45A30" opacity="0.85"/><ellipse cx="135" cy="63" rx="14" ry="9" fill="#D4704A" opacity="0.8"/>
-                            <ellipse cx="138" cy="138" rx="16" ry="10" fill="#D4A843" opacity="0.6"/><circle cx="132" cy="137" r="2.5" fill="white" opacity="0.6"/><circle cx="138" cy="134" r="2.5" fill="white" opacity="0.6"/><circle cx="144" cy="137" r="2.5" fill="white" opacity="0.6"/><circle cx="135" cy="141" r="2.5" fill="white" opacity="0.6"/><circle cx="141" cy="140" r="2" fill="white" opacity="0.5"/>
-                            <circle cx="100" cy="100" r="14" fill="white" stroke="#E8E4DC" stroke-width="1.5"/><text x="100" y="104" text-anchor="middle" font-size="14" font-family="DM Sans">☀️</text>
-                        </svg>
-                    </div>
-                    <div class="r-plate-items">
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-veg)"></div>½ plate veggies (salad, tomato)</div>
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-protein)"></div>¼ plate protein (chicken, fish)</div>
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-carbs)"></div>¼ plate carbs (rice, sweet potato)</div>
-                    </div>
-                </div>
-
-                <div class="r-plate-card">
-                    <div class="r-meal-label">Evening · 7:00pm</div>
-                    <div class="r-meal-name">Dinner</div>
-                    <div class="r-meal-cals">~450 kcal</div>
-                    <div class="r-plate-svg-wrap">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="140" height="140">
-                            <ellipse cx="100" cy="108" rx="88" ry="10" fill="rgba(0,0,0,0.07)"/><circle cx="100" cy="100" r="88" fill="#F0EDE8"/><circle cx="100" cy="100" r="84" fill="none" stroke="#DDD8D0" stroke-width="1.5"/><circle cx="100" cy="100" r="72" fill="white"/>
-                            <path d="M100,100 L28,100 A72,72 0 1,1 100,172 Z" fill="#A8C5AC" opacity="0.8"/><path d="M100,100 L100,28 A72,72 0 0,1 172,100 Z" fill="#C4704A" opacity="0.75"/><path d="M100,100 L172,100 A72,72 0 0,1 100,172 Z" fill="#D4A843" opacity="0.5"/>
-                            <path d="M100,100 L144,136 A72,72 0 0,1 100,172 Z" fill="rgba(255,255,255,0.4)"/><text x="148" y="152" font-size="8" fill="rgba(139,100,30,0.9)" font-weight="600" text-anchor="middle">LESS</text><text x="148" y="162" font-size="7" fill="rgba(139,100,30,0.8)" text-anchor="middle">AT NIGHT</text>
-                            <text x="62" y="90" text-anchor="middle" font-size="11" font-weight="700" fill="white" opacity="0.95">½+</text><text x="62" y="103" text-anchor="middle" font-size="9" fill="white" opacity="0.85">VEG</text><text x="138" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="white" opacity="0.95">¼</text><text x="138" y="84" text-anchor="middle" font-size="8" fill="white" opacity="0.85">PROTEIN</text>
-                            <line x1="100" y1="28" x2="100" y2="172" stroke="white" stroke-width="2.5"/><line x1="28" y1="100" x2="172" y2="100" stroke="white" stroke-width="2.5"/>
-                            <circle cx="55" cy="102" r="7" fill="#5A8A5E" opacity="0.7"/><circle cx="68" cy="95" r="5" fill="#6A9A6E" opacity="0.7"/><circle cx="58" cy="115" r="6" fill="#8ABF8E" opacity="0.65"/><circle cx="72" cy="112" r="7" fill="#7AB07E" opacity="0.6"/><circle cx="45" cy="88" r="5" fill="#D44A4A" opacity="0.6"/><circle cx="50" cy="118" r="4" fill="#E8A840" opacity="0.6"/>
-                            <ellipse cx="135" cy="65" rx="18" ry="10" fill="#B46040" opacity="0.85"/><path d="M148,65 L156,58 L156,72 Z" fill="#C47050" opacity="0.8"/><ellipse cx="133" cy="64" rx="12" ry="7" fill="#C46840" opacity="0.7"/><circle cx="127" cy="62" r="2" fill="rgba(0,0,0,0.3)"/><ellipse cx="138" cy="140" rx="12" ry="8" fill="#B8A060" opacity="0.5"/>
-                            <circle cx="100" cy="100" r="14" fill="white" stroke="#E8E4DC" stroke-width="1.5"/><text x="100" y="104" text-anchor="middle" font-size="14" font-family="DM Sans">🌙</text>
-                        </svg>
-                    </div>
-                    <div class="r-plate-items">
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-veg)"></div>½+ plate veggies (more than lunch)</div>
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-protein)"></div>¼ plate protein (fish, eggs)</div>
-                        <div class="r-plate-item"><div class="r-dot" style="background:var(--r-carbs)"></div>Smaller carb portion at night</div>
-                    </div>
-                </div>
-            </div>
-            <div class="r-legend">
-                <div class="r-legend-item"><div class="r-legend-swatch" style="background:var(--r-veg)"></div>Veg & Fruit</div>
-                <div class="r-legend-item"><div class="r-legend-swatch" style="background:var(--r-protein)"></div>Protein</div>
-                <div class="r-legend-item"><div class="r-legend-swatch" style="background:var(--r-carbs)"></div>Carbs</div>
-            </div>
+        <div class="r-section-title">⏰ Your Daily Routine</div>
+        <div class="r-timeline">
+            <div class="r-timeline-item"><div class="r-timeline-dot ex"></div><div class="r-timeline-time">6:30am</div><div class="r-timeline-content"><strong>🏃 Morning Workout</strong><span>25 min home workout before work — highest energy burn of the day</span></div></div>
+            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">7:00am</div><div class="r-timeline-content"><strong>🍳 Breakfast</strong><span>Eggs + toast + fruit · Eat within 60 min of waking</span></div></div>
+            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">10:00am</div><div class="r-timeline-content"><strong>🧘 Desk Break + Snack</strong><span>Stand, stretch 5 mins · Apple or almonds · 500ml water</span></div></div>
+            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">1:00pm</div><div class="r-timeline-content"><strong>🥗 Lunch Break</strong><span>Half plate veg + protein + carbs · Short 10 min walk after</span></div></div>
+            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">3:30pm</div><div class="r-timeline-content"><strong>🥚 Afternoon Snack</strong><span>Greek yogurt or boiled egg · Stand and move for 5 mins</span></div></div>
+            <div class="r-timeline-item"><div class="r-timeline-dot ex"></div><div class="r-timeline-time">6:00pm</div><div class="r-timeline-content"><strong>✅ Work Ends</strong><span>Evening walk 20 mins (optional but ideal for fat burning)</span></div></div>
+            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">7:00pm</div><div class="r-timeline-content"><strong>🍽 Dinner</strong><span>More veg, less carbs than lunch · No eating after 8:30pm</span></div></div>
+            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">10:00pm</div><div class="r-timeline-content"><strong>😴 Sleep</strong><span>8 hours sleep = better fat loss hormones</span></div></div>
         </div>
-        
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div style="background:white;border-radius:12px;padding:12px;border:1px solid var(--r-light-grey);border-left:4px solid var(--r-gold);">
-                <div style="font-size:9px;font-weight:700;color:var(--r-gold);text-transform:uppercase;margin-bottom:6px;">10:30am · ~100 kcal</div>
-                <div style="font-size:12px;font-weight:600;margin-bottom:4px;">Morning Snack</div>
-                <div style="font-size:10px;color:var(--r-mid-grey);">1 small apple <strong>or</strong> 10 almonds</div>
-            </div>
-            <div style="background:white;border-radius:12px;padding:12px;border:1px solid var(--r-light-grey);border-left:4px solid var(--r-sage);">
-                <div style="font-size:9px;font-weight:700;color:var(--r-sage-dark);text-transform:uppercase;margin-bottom:6px;">4:00pm · ~100 kcal</div>
-                <div style="font-size:12px;font-weight:600;margin-bottom:4px;">Afternoon Fuel</div>
-                <div style="font-size:10px;color:var(--r-mid-grey);">Greek yogurt <strong>or</strong> 1 boiled egg</div>
-            </div>
+    </div>
+
+    <div class="roster-block">
+        <div class="r-section-title">💡 Remote Worker Rules</div>
+        <div class="r-tips-grid">
+            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">🚰</span><div class="r-tip-title">Drink Before Eating</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">500ml water before every meal. Reduces hunger by 20% naturally.</div></div>
+            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">📦</span><div class="r-tip-title">Meal Prep Sunday</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">Pre-portion lunch/snacks. Work stress = bad food choices without prep.</div></div>
+            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">🪑</span><div class="r-tip-title">Never Eat at Desk</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">Sit at a table, screen-free. You'll naturally eat less and feel satisfied.</div></div>
         </div>
     </div>
 
@@ -538,44 +484,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
     </div>
 </div>
 
-<div id="tab-fasting" class="tab-content">
-    <div class="header">
-        <div class="flex-sb">
-            <div><h1 style="font-size:24px;">⏱️ Fasting</h1><p style="font-size:11px; color:rgba(255,255,255,0.7); margin-top:4px;">Mo's 16:8 Window · Target: 16h</p></div>
-        </div>
-        <div class="week-grid" id="fastWeekGrid"></div>
-    </div>
-
-    <div class="card timer-card" id="fastTimerContainer"></div>
-
-    <div class="card">
-        <h3 style="margin-bottom:10px;" id="fastMainLogTitle">📋 Today's Fasting History</h3>
-        <div id="fastList"></div>
-    </div>
-
-    <div id="fastLogOverlay" class="overlay">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 id="fastLogTitle">Edit History</h2>
-            <button onclick="closeFastLog()" style="background:none; color:#fff; font-size:30px; border:none; cursor:pointer;">✕</button>
-        </div>
-        <div class="card">
-            <h3 style="margin-bottom: 10px; color:var(--accent);">Logged Fasts</h3>
-            <div id="fastOverlayFastList" style="margin-bottom: 15px;"></div>
-            
-            <div style="border-top: 1px solid var(--border); padding-top: 15px; margin-bottom: 20px;">
-                <label style="font-size:11px; color:var(--accent); font-weight:700;">MANUAL HOURS OVERRIDE</label>
-                <p style="font-size:10px; color:var(--sub); margin-bottom:8px;">Edit total hours fasted directly if you forgot to run the timer.</p>
-                <input type="number" id="fastHFast" placeholder="Override total hours (e.g. 16.5)" step="0.1" style="text-align:center;">
-            </div>
-            
-            <div class="grid-half">
-                <button class="btn-green" onclick="saveFastDay()">Save Edits</button>
-                <button class="btn-danger" style="padding:12px; font-size:14px; border-radius:10px;" onclick="deleteFastDayLog()">Wipe Day</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="tab-move" class="tab-content">
     <div class="header">
         <div class="flex-sb">
@@ -619,13 +527,13 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
         <div style="margin-bottom: 12px; background:white; padding:15px; border-radius:12px; border:1px solid var(--r-light-grey); border-left:4px solid var(--r-terracotta);">
             <strong style="font-size:13px; display:block; margin-bottom:4px; font-family:'Playfair Display', serif;">🔥 HIIT (20 min)</strong>
             <p style="font-size:11px; color:var(--r-mid-grey); line-height:1.4; margin-bottom:6px;">High Intensity Interval Training. 40 seconds work, 20 seconds rest. Repeat.</p>
-            <div style="font-size:11px;"><strong>Routine:</strong> Jumping jacks, burpees, high knees, mountain climbers, fast step-ups/stair climbs.</div>
+            <div style="font-size:11px;"><strong>Routine:</strong> Jumping jacks, burpees, high knees, mountain climbers, fast step-ups or <span style="font-weight:700; color:var(--r-terracotta);">fast stair climbs</span>.</div>
         </div>
 
         <div style="background:white; padding:15px; border-radius:12px; border:1px solid var(--r-light-grey); border-left:4px solid var(--r-gold);">
             <strong style="font-size:13px; display:block; margin-bottom:4px; font-family:'Playfair Display', serif;">🚴 Cardio (30 min)</strong>
             <p style="font-size:11px; color:var(--r-mid-grey); line-height:1.4; margin-bottom:6px;">Sustained effort to keep the heart rate up and burn calories continuously.</p>
-            <div style="font-size:11px;"><strong>Routine:</strong> <span style="font-weight:700; color:var(--r-terracotta);">Skipping / Jumping rope</span> (highly recommended!), <span style="font-weight:700; color:var(--r-terracotta);">Stair climbing</span>, brisk walk, light jog, or dancing.</div>
+            <div style="font-size:11px;"><strong>Routine:</strong> <span style="font-weight:700; color:var(--r-terracotta);">YouTube 35min indoor walk</span>, <span style="font-weight:700; color:var(--r-terracotta);">Skipping / Jumping rope</span>, <span style="font-weight:700; color:var(--r-terracotta);">Stair climbing</span>, brisk walk, or light jog.</div>
         </div>
     </div>
 
@@ -666,36 +574,30 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
     </div>
 </div>
 
-<div id="tab-plan" class="tab-content">
+<div id="tab-grocery" class="tab-content">
+    <div class="header" style="background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);">
+        <div class="flex-sb">
+            <div><h1 style="font-size:24px;">🛒 Grocery List</h1><p style="font-size:11px; color:rgba(255,255,255,0.7); margin-top:4px;">Weekly Shopping & Prep Guide</p></div>
+        </div>
+    </div>
+
+    <div class="card" style="padding: 10px 16px;">
+        <p style="font-size:11px; color:var(--sub); text-align:center;">Tip: Shop on Saturday or Sunday. Prep on Sunday. Tick as you buy!</p>
+        <button class="btn-danger" style="margin-top:10px; background:transparent; border:1px solid var(--border); color:var(--sub);" onclick="resetGroceryList()">↺ Reset All Checkboxes</button>
+    </div>
+
+    <div id="groceryContainer">
+        </div>
+</div>
+
+
+<div id="tab-stats" class="tab-content">
     <div class="header" style="background: linear-gradient(135deg, #2c3e50 0%, #1a0a2e 100%);">
-        <h1 style="font-size:24px; color:#fff;">🗺️ The Master Plan</h1>
+        <h1 style="font-size:24px; color:#fff;">🗺️ Master Plan & Stats</h1>
         <div class="flex-sb" style="margin-top:10px;">
             <div><div style="font-size:10px; color:rgba(255,255,255,0.6);">START</div><div style="font-size:18px; font-weight:900;">70.25 <span style="font-size:12px; font-weight:normal;">kg</span></div></div>
             <div style="font-size:20px; color:var(--sub);">➔</div>
             <div style="text-align:right;"><div style="font-size:10px; color:rgba(255,255,255,0.6);">GOAL</div><div style="font-size:18px; font-weight:900; color:var(--gold);">61.00 <span style="font-size:12px; font-weight:normal;">kg</span></div></div>
-        </div>
-    </div>
-
-    <div class="roster-block">
-        <div class="r-section-title">⏰ Your Daily Routine</div>
-        <div class="r-timeline">
-            <div class="r-timeline-item"><div class="r-timeline-dot ex"></div><div class="r-timeline-time">6:30am</div><div class="r-timeline-content"><strong>🏃 Morning Workout</strong><span>25 min home workout before work — highest energy burn of the day</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">7:00am</div><div class="r-timeline-content"><strong>🍳 Breakfast</strong><span>Eggs + toast + fruit · Eat within 60 min of waking</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">10:00am</div><div class="r-timeline-content"><strong>🧘 Desk Break + Snack</strong><span>Stand, stretch 5 mins · Apple or almonds · 500ml water</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">1:00pm</div><div class="r-timeline-content"><strong>🥗 Lunch Break</strong><span>Half plate veg + protein + carbs · Short 10 min walk after</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">3:30pm</div><div class="r-timeline-content"><strong>🥚 Afternoon Snack</strong><span>Greek yogurt or boiled egg · Stand and move for 5 mins</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ex"></div><div class="r-timeline-time">6:00pm</div><div class="r-timeline-content"><strong>✅ Work Ends</strong><span>Evening walk 20 mins (optional but ideal for fat burning)</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot ml"></div><div class="r-timeline-time">7:00pm</div><div class="r-timeline-content"><strong>🍽 Dinner</strong><span>More veg, less carbs than lunch · No eating after 8:30pm</span></div></div>
-            <div class="r-timeline-item"><div class="r-timeline-dot"></div><div class="r-timeline-time">10:00pm</div><div class="r-timeline-content"><strong>😴 Sleep</strong><span>8 hours sleep = better fat loss hormones</span></div></div>
-        </div>
-    </div>
-
-    <div class="roster-block">
-        <div class="r-section-title">💡 Remote Worker Rules</div>
-        <div class="r-tips-grid">
-            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">🚰</span><div class="r-tip-title">Drink Before Eating</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">500ml water before every meal. Reduces hunger by 20% naturally.</div></div>
-            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">📦</span><div class="r-tip-title">Meal Prep Sunday</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">Pre-portion lunch/snacks. Work stress = bad food choices without prep.</div></div>
-            <div class="r-tip-card"><span style="font-size:20px; display:block; margin-bottom:8px;">🪑</span><div class="r-tip-title">Never Eat at Desk</div><div style="font-size:11px; color:var(--r-mid-grey); line-height:1.4;">Sit at a table, screen-free. You'll naturally eat less and feel satisfied.</div></div>
         </div>
     </div>
 
@@ -711,13 +613,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
         </div>
     </div>
 
-    <div class="roster-block" style="text-align:center; padding: 15px;">
-        <p style="font-size:11px; color:var(--r-mid-grey);">Personalised for <strong style="color:var(--r-terracotta); font-family:'Playfair Display',serif;">Age 36 · 71kg · 5'3" · Remote Worker</strong></p>
-        <p style="font-size:10px; color:#AAA; margin-top:4px;">Target: 1,450 kcal/day · 0.5kg/week loss</p>
-    </div>
-</div>
-
-<div id="tab-stats" class="tab-content">
     <div class="grid2">
         <div class="card" style="text-align:center; padding:12px;"><div style="font-size:10px; color:var(--sub);">CURRENT</div><div id="statCurrent" style="font-size:24px; font-weight:900; color:var(--text);">--</div></div>
         <div class="card" style="text-align:center; padding:12px; border-color:var(--gold);"><div style="font-size:10px; color:var(--gold);">TOTAL LOST</div><div id="statLost" style="font-size:24px; font-weight:900; color:var(--gold);">--</div></div>
@@ -764,15 +659,19 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
         <h3 style="margin-bottom:10px;">📋 Weight History</h3>
         <div id="weightHistoryList"></div>
     </div>
+
+    <div class="roster-block" style="text-align:center; padding: 15px;">
+        <p style="font-size:11px; color:var(--r-mid-grey);">Personalised for <strong style="color:var(--r-terracotta); font-family:'Playfair Display',serif;">Age 36 · 71kg · 5'3" · Remote Worker</strong></p>
+        <p style="font-size:10px; color:#AAA; margin-top:4px;">Target: 1,450 kcal/day · 0.5kg/week loss</p>
+    </div>
 </div>
 
 <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('home', this)">🏠<span>Home</span></button>
     <button class="tab-btn" onclick="switchTab('food', this)">🍽️<span>Food</span></button>
     <button class="tab-btn" onclick="switchTab('hydration', this)">💧<span>Water</span></button>
-    <button class="tab-btn" onclick="switchTab('fasting', this)">⏱️<span>Fast</span></button>
     <button class="tab-btn" onclick="switchTab('move', this)">💪<span>Move</span></button>
-    <button class="tab-btn" onclick="switchTab('plan', this)">📋<span>Plan</span></button>
+    <button class="tab-btn" onclick="switchTab('grocery', this)">🛒<span>Grocery</span></button>
     <button class="tab-btn" onclick="switchTab('stats', this)">📊<span>Stats</span></button>
 </div>
 
@@ -783,8 +682,7 @@ let activeDay = DAYS[new Date().getDay()];
 
 // Targets
 const EX_TARGET = 300;
-const FAST_TARGET = 16;
-const FOOD_TARGETS = { cal: 1400, prot: 100, carb: 150, fat: 50, fib: 25, oth: 50 };
+const FOOD_TARGETS = { cal: 1450, prot: 100, carb: 150, fat: 50, fib: 25, oth: 50 }; // Adjusted to 1450 based on poster
 const HYD_TARGETS = { total: 8, plain: 4, lemon: 2, tea: 1, chia: 1, oth: 1 };
 
 const STATS_PROFILE = { startWeight: 71.0, goalWeight: 61.0, heightCm: 160.0 }; 
@@ -794,45 +692,69 @@ const STATS_MILESTONES = [
     { kg: 10, icon: "🎉", title: "Goal Achieved!", desc: "Full wellness day / spa celebration" }
 ];
 
+const MEAL_PLAN_DB = {
+    'Mon': { b: 'Oat flatbread, Titus fish, Eggs or Banana', l: 'Oat swallow, Okro, Titus fish, Pomo', d: 'Plantain, Catfish', s: 'Boiled corn' },
+    'Tue': { b: 'Plantain, Eggs or Banana', l: 'Spaghetti, Chicken breast', d: 'Tomato stew, Eggs/Fish', s: 'Mangoes' },
+    'Wed': { b: 'Oat flatbread, Titus fish, Eggs or Banana', l: 'Eba, Ogbono, Chicken breast, Pomo', d: 'Sweet potato, Turkey, Tomato stew', s: 'Agbalumo' },
+    'Thu': { b: 'Eggs & Banana', l: 'Oat swallow, Okro, Catfish, Pomo, Plantain', d: 'Chicken breast, Veggies', s: 'Boiled corn, Agbalumo' },
+    'Fri': { b: 'Oat flatbread, Eggs or Banana', l: 'Spaghetti, Beef/Goat meat, Pomo', d: 'Plantain, Catfish, Tomato stew', s: 'Mangoes' },
+    'Sat': { b: 'Oat flatbread, Eggs or Banana', l: 'Eba, Ogbono, Catfish, Turkey, Chicken, Pomo', d: 'Sweet potato, Cabbage salad', s: 'Boiled corn, Agbalumo' },
+    'Sun': { b: 'Oat flatbread, Eggs or Banana', l: 'Oat swallow, Okro, Titus fish, Chicken, Pomo', d: 'Spaghetti, Veggies', s: 'Mangoes, Agbalumo' }
+};
+
 // Databases
-let homeRituals = JSON.parse(localStorage.getItem('mo_rituals')) || [
-    { n: 'Ginger Shot', t: '8 AM', e: '🫚' },
-    { n: 'Warm Water & Lime', t: '8 AM', e: '🍈' },
-    { n: 'Black Coffee', t: '8–9 AM', e: '☕' },
-    { n: 'Wellness Tea', t: '9 PM', e: '🌿' }
+let homeRituals = JSON.parse(localStorage.getItem('mo_rituals_v2')) || [
+    { n: 'Morning Ginger Shot', t: 'Upon Waking', e: '🫚' },
+    { n: 'Pre-Breakfast Water (500ml)', t: 'Before Breakfast', e: '🚰' },
+    { n: 'Pre-Lunch Water (500ml)', t: 'Before Lunch', e: '🚰' },
+    { n: 'Perfectil & Omega-3', t: 'With Lunch', e: '💊' },
+    { n: 'Pre-Dinner Water (500ml)', t: 'Before Dinner', e: '🚰' },
+    { n: 'Wellness Zobo Tea', t: 'Evening', e: '🌺' },
+    { n: 'Magnesium Glycinate (300mg)', t: '9:00 PM', e: '🌙' }
 ];
 
 let weightLog = JSON.parse(localStorage.getItem('mo_weights')) || [
     { date: "Day 1", weight: STATS_PROFILE.startWeight, id: 0 }
 ];
 
-let fastIsFasting = JSON.parse(localStorage.getItem('mo_isFasting')) || false;
-let fastStartTime = JSON.parse(localStorage.getItem('mo_fastStartTime')) || null;
-let fastTimerInterval;
 let hydCurrentDrink = { id: 'plain', name: 'Plain Water', emoji: '💧' };
 
 let history = JSON.parse(localStorage.getItem('mo_history')) || {};
 DAYS.forEach(d => { 
     if(!history[d]) {
         history[d] = {
-            cal:0, ex:0, wat:0, rit:0, sleep:0, steps:0, pec:'', cheatDay: false,
+            cal:0, ex:0, wat:0, rit:0, pec:'', cheatDay: false,
+            mood: 0, intention: '',
             meals:[], prot:0, carb:0, fat:0, fib:0, oth:0,
             drinks:[], plain:0, lemon:0, tea:0, chia:0, othWat:0,
-            fastHours:0, fasts:[],
             workouts: []
         };
     } else {
         if(history[d].cheatDay === undefined) history[d].cheatDay = false;
+        if(history[d].mood === undefined) history[d].mood = 0;
+        if(history[d].intention === undefined) history[d].intention = '';
         if(!history[d].meals) history[d].meals = [];
         if(!history[d].drinks) history[d].drinks = [];
-        if(!history[d].fasts) history[d].fasts = [];
         if(!history[d].workouts) history[d].workouts = [];
         ['prot','carb','fat','fib','oth','plain','lemon','tea','chia','othWat'].forEach(k => {
             if(history[d][k] === undefined) history[d][k] = 0;
         });
-        if(history[d].fastHours === undefined) history[d].fastHours = 0;
     }
 });
+
+// Grocery List Data
+const groceryData = [
+    { cat: "🥩 Proteins", items: [ { id: 'p1', name: 'Titus fish (frozen/fresh)', desc: '4-5 medium fish' }, { id: 'p2', name: 'Catfish (whole/fillet)', desc: '4-5 medium' }, { id: 'p3', name: 'Chicken breast/pieces', desc: '6-8 pieces' }, { id: 'p4', name: 'Turkey pieces', desc: '4-5 pieces' }, { id: 'p5', name: 'Eggs', desc: '2 dozen (24 eggs)' }, { id: 'p6', name: 'Beef or goat meat', desc: '4 medium pieces' }, { id: 'p7', name: 'Pomo (cow skin)', desc: '500g pack' } ] },
+    { cat: "🍚 Carbs & Staples", items: [ { id: 'c1', name: 'Oat flour (for flatbread)', desc: '500g bag' }, { id: 'c2', name: 'Oat swallow pack', desc: '2 packs' }, { id: 'c3', name: 'Garri/Eba pack', desc: '1 medium pack' }, { id: 'c4', name: 'Spaghetti', desc: '500g pack' }, { id: 'c5', name: 'Plantain (unripe/semi)', desc: '5-6 fingers' }, { id: 'c6', name: 'Sweet potato', desc: '3 medium' } ] },
+    { cat: "🍲 Soups & Sauce", items: [ { id: 's1', name: 'Okro (fresh or frozen)', desc: '500g' }, { id: 's2', name: 'Ogbono seeds (ground)', desc: '100-150g pack' }, { id: 's3', name: 'Fresh tomatoes', desc: '1kg' }, { id: 's4', name: 'Tomato paste (tin)', desc: '2 small tins' }, { id: 's5', name: 'Onions', desc: '4-5 medium' }, { id: 's6', name: 'Red pepper (tatashe)', desc: '6-8 pieces' }, { id: 's7', name: 'Scotch bonnet (ata rodo)', desc: '4-5 pieces' }, { id: 's8', name: 'Palm oil', desc: 'Small bottle 250ml' }, { id: 's9', name: 'Crayfish (ground)', desc: '100g pack' }, { id: 's10', name: 'Seasoning/stock cubes', desc: '1 pack' }, { id: 's11', name: 'Salt', desc: 'As needed' } ] },
+    { cat: "🥛 Dairy & Yoghurt", items: [ { id: 'd1', name: 'Full cream milk', desc: '2 litres (for homemade yoghurt)' }, { id: 'd2', name: 'Plain yoghurt starter', desc: '1 small pot (175g)' }, { id: 'd3', name: 'OR store-bought yoghurt', desc: '7 small pots (no sugar/flavour)' } ] },
+    { cat: "🍎 Fruits & Snacks", items: [ { id: 'f1', name: 'Bananas', desc: '7-8 fingers' }, { id: 'f2', name: 'Mangoes (not overripe)', desc: '4-5 medium' }, { id: 'f3', name: 'Agbalumo (star apple)', desc: '1 small bag (40-50 pcs)' }, { id: 'f4', name: 'Boiled corn (dried/cobs)', desc: '500g dried or 3-4 cobs' }, { id: 'f5', name: 'Coconut (fresh or dry)', desc: '1 medium or 100g pack' }, { id: 'f6', name: 'Apples', desc: '3-4 medium' }, { id: 'f7', name: 'Almonds (raw, unsalted)', desc: '100g small pack' } ] },
+    { cat: "🥗 Vegetables & Salad", items: [ { id: 'v1', name: 'Cucumber', desc: '4-5 large' }, { id: 'v2', name: 'Cabbage (white or green)', desc: '1 small head' }, { id: 'v3', name: 'Lettuce or mixed leaves', desc: '1 bag' }, { id: 'v4', name: 'Carrots', desc: '3-4 medium' }, { id: 'v5', name: 'Spring onion/ green onion', desc: '1 bunch' } ] },
+    { cat: "🌿 Wellness (Zobo & Shots)", items: [ { id: 'w1', name: 'Dried zobo (hibiscus) petals', desc: '200g bag' }, { id: 'w2', name: 'Fresh ginger root', desc: 'Large knob (200-300g)' }, { id: 'w3', name: 'Cloves (whole)', desc: 'Small bag 50g' }, { id: 'w4', name: 'Cinnamon sticks', desc: 'Small pack' }, { id: 'w5', name: 'Lemons', desc: '5-6' }, { id: 'w6', name: 'Cayenne pepper', desc: 'Small jar' }, { id: 'w7', name: 'Turmeric powder', desc: 'Small jar (optional)' } ] },
+    { cat: "💊 Supplements", items: [ { id: 'sup1', name: 'Perfectil Original', desc: '1 tablet/day with lunch' }, { id: 'sup2', name: 'Omega-3 Fish Oil (1000mg)', desc: '1-2 caps/day with lunch' }, { id: 'sup3', name: 'Magnesium Glycinate (300mg)', desc: '1 cap/day at 9pm' } ] },
+    { cat: "✅ Sunday Prep Checklist", items: [ { id: 'prep1', name: 'Brew large batch of zobo wellness tea', desc: '20 mins' }, { id: 'prep2', name: 'Make 5 ginger shots, pour into bottles', desc: '15 mins' }, { id: 'prep3', name: 'Boil eggs for the week (8-10)', desc: '12 mins' }, { id: 'prep4', name: 'Pre-cook & portion boiled corn', desc: '20 mins' }, { id: 'prep5', name: 'Pre-slice cucumber (store in water)', desc: '10 mins' }, { id: 'prep6', name: 'Marinate fish and chicken', desc: '15 mins' }, { id: 'prep7', name: 'Make tomato stew (freeze half)', desc: '30 mins' }, { id: 'prep8', name: 'Portion snacks into daily bags', desc: '10 mins' }, { id: 'prep9', name: 'Make homemade yoghurt', desc: '5 mins active + overnight' }, { id: 'prep10', name: 'Fill 5 daily water bottles', desc: '5 mins' } ] }
+];
+let groceryState = JSON.parse(localStorage.getItem('mo_grocery')) || {};
 
 function drawRing(pct, col, size, stroke) {
     const r = (size - stroke * 2) / 2; const c = 2 * Math.PI * r;
@@ -847,7 +769,6 @@ function updateAllUI() {
     updateHomeUI();
     updateFoodUI();
     updateHydrationUI();
-    updateFastingUI();
     updateMoveUI();
     updateStatsUI();
     localStorage.setItem('mo_history', JSON.stringify(history));
@@ -856,7 +777,6 @@ function updateAllUI() {
 // --- TAB SWITCHING ---
 function switchTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active-tab'));
-    
     const targetTab = document.getElementById(`tab-${tabId}`);
     if(targetTab) targetTab.classList.add('active-tab');
     
@@ -865,13 +785,13 @@ function switchTab(tabId, btn) {
     
     window.scrollTo(0,0);
     if(tabId === 'stats') setTimeout(drawChart, 50);
+    if(tabId === 'grocery') renderGroceryList();
 }
 
 // --- HOME TAB LOGIC ---
 function updateHomeUI() {
     const grid = document.getElementById('homeWeekGrid'); grid.innerHTML = '';
-    const monitor = document.getElementById('homeMonitorList'); monitor.innerHTML = '';
-
+    
     DAYS.forEach(d => {
         const dData = history[d];
         const div = document.createElement('div');
@@ -885,12 +805,35 @@ function updateHomeUI() {
                 <div style="position:absolute; inset:12px">${drawRing((dData.rit/homeRituals.length)*100, '#9b59b6', 20, 3)}</div>
             </div>`;
         grid.appendChild(div);
-        
-        monitor.innerHTML += `<div class="mon-row" onclick="openHomeLog('${d}')">
-            <span>${dData.cheatDay ? '🍕 ' : ''}${d}</span> <span>👟 ${dData.steps}</span> <span>😴 ${dData.sleep}h</span> <span>${dData.pec ? '📝' : ''}</span>
-        </div>`;
     });
+
     document.getElementById('homeRitualPct').innerText = Math.round((history[activeDay].rit / homeRituals.length) * 100) + '%';
+    
+    // Snapshot UI
+    const calsLeft = Math.max(0, FOOD_TARGETS.cal - history[activeDay].cal);
+    document.getElementById('homeSnapKcal').innerText = calsLeft;
+    document.getElementById('homeSnapWat').innerText = history[activeDay].wat;
+    document.getElementById('homeSnapEx').innerText = history[activeDay].ex;
+
+    // Intention UI
+    document.getElementById('homeIntention').value = history[activeDay].intention || '';
+
+    // Mood UI
+    document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
+    if(history[activeDay].mood > 0) {
+        const activeBtn = document.getElementById(`mood-${history[activeDay].mood}`);
+        if(activeBtn) activeBtn.classList.add('active');
+    }
+}
+
+function setMood(level) {
+    history[activeDay].mood = level;
+    updateAllUI();
+}
+
+function saveHomeData() {
+    history[activeDay].intention = document.getElementById('homeIntention').value;
+    updateAllUI();
 }
 
 function initRituals() {
@@ -907,24 +850,23 @@ function initRituals() {
 
 function updateRitCount() { history[activeDay].rit = document.getElementById('homeRitualsContainer').querySelectorAll('.ritual-item.checked').length; updateAllUI(); }
 function addNewRitual() { const n = prompt("Name?"), t = prompt("Time?"), e = prompt("Emoji?"); if(n && t) { homeRituals.push({n, t, e: e || '✨'}); localStorage.setItem('mo_rituals', JSON.stringify(homeRituals)); initRituals(); updateAllUI(); } }
-function quickLog(type) { const val = type === 'sleep' ? document.getElementById('homeSleepIn').value : document.getElementById('homeStepIn').value; if(val) { if(type==='sleep') history[activeDay].sleep = parseFloat(val); else history[activeDay].steps += parseInt(val); updateAllUI(); } }
 
 function openHomeLog(day) {
-    activeDay = day; const dData = history[day]; document.getElementById('homeLogTitle').innerText = `${day} Log`;
-    document.getElementById('homeHCal').value = dData.cal || ""; document.getElementById('homeHEx').value = dData.ex || ""; document.getElementById('homeHWat').value = dData.wat || ""; document.getElementById('homeHSleep').value = dData.sleep || ""; document.getElementById('homeHSteps').value = dData.steps || ""; document.getElementById('homeHPec').value = dData.pec || ""; document.getElementById('homeHCheat').checked = dData.cheatDay || false;
+    activeDay = day; const dData = history[day]; document.getElementById('homeLogTitle').innerText = `${day} Data`;
+    document.getElementById('homeHCal').value = dData.cal || ""; document.getElementById('homeHEx').value = dData.ex || ""; document.getElementById('homeHWat').value = dData.wat || ""; document.getElementById('homeHPec').value = dData.pec || ""; document.getElementById('homeHCheat').checked = dData.cheatDay || false;
     document.getElementById('homeLogOverlay').style.display = 'block'; initRituals(); updateAllUI(); 
 }
 
-function saveHomeDay() {
-    history[activeDay].cal = parseInt(document.getElementById('homeHCal').value) || 0; history[activeDay].ex = parseInt(document.getElementById('homeHEx').value) || 0; history[activeDay].wat = parseInt(document.getElementById('homeHWat').value) || 0; history[activeDay].sleep = parseFloat(document.getElementById('homeHSleep').value) || 0; history[activeDay].steps = parseInt(document.getElementById('homeHSteps').value) || 0; history[activeDay].pec = document.getElementById('homeHPec').value; history[activeDay].cheatDay = document.getElementById('homeHCheat').checked;
+function saveHomeDataOverlay() {
+    history[activeDay].cal = parseInt(document.getElementById('homeHCal').value) || 0; history[activeDay].ex = parseInt(document.getElementById('homeHEx').value) || 0; history[activeDay].wat = parseInt(document.getElementById('homeHWat').value) || 0; history[activeDay].pec = document.getElementById('homeHPec').value; history[activeDay].cheatDay = document.getElementById('homeHCheat').checked;
     closeHomeLog();
 }
 
-function deleteHomeDayLog() { if(confirm("Wipe day?")) { history[activeDay].cal=0; history[activeDay].ex=0; history[activeDay].wat=0; history[activeDay].rit=0; history[activeDay].sleep=0; history[activeDay].steps=0; history[activeDay].pec=''; history[activeDay].cheatDay = false; history[activeDay].workouts = []; initRituals(); closeHomeLog(); } }
+function deleteHomeDayLog() { if(confirm("Wipe day?")) { history[activeDay].cal=0; history[activeDay].ex=0; history[activeDay].wat=0; history[activeDay].rit=0; history[activeDay].pec=''; history[activeDay].cheatDay = false; history[activeDay].workouts = []; initRituals(); closeHomeLog(); } }
 function closeHomeLog() { document.getElementById('homeLogOverlay').style.display = 'none'; activeDay = DAYS[new Date().getDay()]; initRituals(); updateAllUI(); }
 
 // --- FOOD TAB LOGIC & IMAGE UPLOAD ---
-let currentFoodImage = null; // Holds the temporary base64 string
+let currentFoodImage = null; 
 
 function processFoodImage(event) {
     const file = event.target.files[0];
@@ -937,7 +879,6 @@ function processFoodImage(event) {
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-            // Compress via Canvas to fit inside localStorage
             const canvas = document.createElement('canvas');
             const MAX_WIDTH = 250;
             const scaleSize = MAX_WIDTH / img.width;
@@ -947,7 +888,6 @@ function processFoodImage(event) {
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             
-            // Convert to highly compressed JPEG to save database space
             currentFoodImage = canvas.toDataURL('image/jpeg', 0.6); 
             
             const preview = document.getElementById('foodImagePreview');
@@ -977,6 +917,15 @@ function updateFoodUI() {
     const isToday = activeDay === DAYS[new Date().getDay()];
     document.getElementById('foodActiveDayLabel').innerText = isToday ? "Today" : activeDay;
     document.getElementById('foodMainLogTitle').innerText = (isToday ? "📋 Today's Food Log" : `📋 ${activeDay}'s Food Log`) + (history[activeDay].cheatDay ? " 🍕" : "");
+
+    // Update Suggested Menu based on Active Day
+    const isPast = (DAYS.indexOf(activeDay) < new Date().getDay() && !isToday);
+    document.getElementById('planDayLabel').innerText = isToday ? "Today's" : (isPast ? "Past" : "Planned");
+    const menu = MEAL_PLAN_DB[activeDay];
+    document.getElementById('planBfast').innerText = menu.b;
+    document.getElementById('planLunch').innerText = menu.l;
+    document.getElementById('planDinner').innerText = menu.d;
+    document.getElementById('planSnack').innerText = menu.s;
 
     const eaten = history[activeDay].cal; const remaining = Math.max(0, FOOD_TARGETS.cal - eaten);
     document.getElementById('foodCalsEaten').innerText = eaten; document.getElementById('foodCalsLeft').innerText = remaining;
@@ -1016,17 +965,13 @@ function logFoodMeal(type) {
             fat: parseInt(document.getElementById(`${prefix}Fat`).value) || 0, 
             fib: parseInt(document.getElementById(`${prefix}Fib`).value) || 0, 
             oth: parseInt(document.getElementById(`${prefix}Oth`).value) || 0,
-            img: type === 'quick' ? currentFoodImage : null // Only quick meals use the image currently
+            img: type === 'quick' ? currentFoodImage : null
         };
         history[activeDay].meals.push(meal); 
         history[activeDay].cal += meal.cal; history[activeDay].prot += meal.prot; history[activeDay].carb += meal.carb; history[activeDay].fat += meal.fat; history[activeDay].fib += meal.fib; history[activeDay].oth += meal.oth;
         
         ['Name','Cal','Prot','Carb','Fat','Fib','Oth'].forEach(id => { document.getElementById(`${prefix}${id}`).value = ''; }); 
-        
-        // Reset image preview
-        currentFoodImage = null;
-        document.getElementById('foodImagePreview').style.display = 'none';
-        document.getElementById('foodImageStatus').style.display = 'none';
+        currentFoodImage = null; document.getElementById('foodImagePreview').style.display = 'none'; document.getElementById('foodImageStatus').style.display = 'none';
         
         updateAllUI();
     } else alert("Please enter at least the meal name and total calories.");
@@ -1105,51 +1050,6 @@ function saveHydDay() { history[activeDay].plain = parseInt(document.getElementB
 function deleteHydDayLog() { if(confirm(`Wipe all hydration data for ${activeDay}?`)) { ['wat','plain','lemon','tea','chia','othWat'].forEach(cat => history[activeDay][cat] = 0); history[activeDay].drinks = []; closeHydLog(); } }
 function closeHydLog() { document.getElementById('hydLogOverlay').style.display = 'none'; activeDay = DAYS[new Date().getDay()]; updateAllUI(); }
 
-// --- FASTING TAB LOGIC ---
-function updateFastingUI() {
-    const grid = document.getElementById('fastWeekGrid'); grid.innerHTML = '';
-    DAYS.forEach(d => {
-        const dData = history[d];
-        const fastPct = (dData.fastHours / FAST_TARGET) * 100;
-        grid.innerHTML += `<div class="day-btn" onclick="openFastLog('${d}')"><span style="font-size:9px; color:${d===activeDay?'#00d68f':'#9a8fa0'}; font-weight:700;">${d}</span><div class="ring-stack" style="width:44px; height:44px;">${drawRing(fastPct, 'var(--accent)', 44, 4)}</div></div>`;
-    });
-
-    const isToday = activeDay === DAYS[new Date().getDay()];
-    document.getElementById('fastMainLogTitle').innerText = isToday ? "📋 Today's Fasting History" : `📋 ${activeDay}'s History`;
-    const fastList = document.getElementById('fastList');
-    if (history[activeDay].fasts.length === 0) { fastList.innerHTML = `<p style="font-size:12px; color:var(--sub); text-align:center; padding:10px 0;">No fasts logged yet.</p>`; } 
-    else { fastList.innerHTML = ''; history[activeDay].fasts.forEach((f, index) => { fastList.innerHTML += `<div class="fast-row"><div><span style="font-size:16px; margin-right:8px;">⚡</span><span style="font-weight:700;">${f.hours.toFixed(1)} Hours</span><div style="font-size:10px; color:var(--sub); margin-top:2px;">${f.dateLabel}</div></div><button class="del-btn" onclick="deleteFast(${index})">✕</button></div>`; }); }
-    renderTimerCard();
-}
-
-function renderTimerCard() {
-    const container = document.getElementById('fastTimerContainer');
-    if (fastIsFasting && fastStartTime) {
-        const startDate = new Date(fastStartTime); const tzOffset = startDate.getTimezoneOffset() * 60000; const localISOTime = (new Date(fastStartTime - tzOffset)).toISOString().slice(0, 16);
-        container.classList.add('timer-active');
-        container.innerHTML = `<h2 style="color:#fff; margin-bottom:5px;">Fasting...</h2><div id="fastLiveTimer" style="font-size:54px; font-weight:900; font-variant-numeric:tabular-nums; color:var(--accent); margin:10px 0;">00:00:00</div><div style="height:8px; background:rgba(255,255,255,0.1); border-radius:5px; margin-bottom:15px; overflow:hidden;"><div id="fastTimerProgress" style="width:0%; height:100%; background:linear-gradient(90deg, var(--accent), var(--blue)); transition: width 1s;"></div></div><div style="margin-bottom:15px; display:flex; align-items:center; justify-content:center; gap:10px;"><span style="font-size:11px; color:var(--sub);">Started:</span><input type="datetime-local" id="editFastStart" value="${localISOTime}" onchange="updateFastStartTime()" style="width:auto; padding:6px; font-size:11px; background:rgba(0,0,0,0.5); border:1px solid var(--purple);"></div><button class="btn-danger" onclick="endFast()">⏹ End Fast & Log</button>`;
-        if (!fastTimerInterval) fastTimerInterval = setInterval(updateLiveTimer, 1000); updateLiveTimer();
-    } else {
-        const now = new Date(); const tzOffset = now.getTimezoneOffset() * 60000; const localISOTime = (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 16);
-        container.classList.remove('timer-active');
-        container.innerHTML = `<div style="font-size:48px; margin-bottom:12px;">🌙</div><p style="color:var(--sub); font-size:13px; margin-bottom:15px;">Start your fast after your last meal (7 PM).</p><button class="btn-primary" style="margin-bottom:15px;" onclick="startFast()">▶ Start Fasting Now</button><div style="border-top:1px solid var(--border); padding-top:15px; text-align:left;"><label style="font-size:11px; color:var(--sub); font-weight:700; margin-bottom:8px; display:block;">FORGOT TO START? SET PAST TIME:</label><div style="display:flex; gap:8px;"><input type="datetime-local" id="manualFastStart" value="${localISOTime}" style="flex:1; padding:10px; font-size:13px;"><button class="btn-green" style="width:auto; padding:10px 15px;" onclick="startFastManual()">Start</button></div></div>`;
-        clearInterval(fastTimerInterval); fastTimerInterval = null;
-    }
-}
-
-function startFast() { fastIsFasting = true; fastStartTime = Date.now(); localStorage.setItem('mo_isFasting', JSON.stringify(fastIsFasting)); localStorage.setItem('mo_fastStartTime', JSON.stringify(fastStartTime)); updateAllUI(); }
-function startFastManual() { const val = document.getElementById('manualFastStart').value; if (!val) return; const pastTime = new Date(val).getTime(); if (pastTime > Date.now()) { alert("Start time cannot be in the future!"); return; } fastIsFasting = true; fastStartTime = pastTime; localStorage.setItem('mo_isFasting', JSON.stringify(fastIsFasting)); localStorage.setItem('mo_fastStartTime', JSON.stringify(fastStartTime)); updateAllUI(); }
-function updateFastStartTime() { const val = document.getElementById('editFastStart').value; if (!val) return; const newTime = new Date(val).getTime(); if (newTime > Date.now()) { alert("Start time cannot be in the future!"); updateAllUI(); return; } fastStartTime = newTime; localStorage.setItem('mo_fastStartTime', JSON.stringify(fastStartTime)); updateLiveTimer(); }
-function endFast() { if (!fastStartTime) return; const elapsedHours = (Date.now() - fastStartTime) / (1000 * 60 * 60); const today = DAYS[new Date().getDay()]; history[today].fasts.push({ hours: elapsedHours, dateLabel: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }); history[today].fastHours += elapsedHours; fastIsFasting = false; fastStartTime = null; localStorage.setItem('mo_isFasting', JSON.stringify(fastIsFasting)); localStorage.setItem('mo_fastStartTime', JSON.stringify(fastStartTime)); updateAllUI(); alert(`Fast ended! Logged ${elapsedHours.toFixed(1)} hours.`); }
-function updateLiveTimer() { if (!fastIsFasting || !fastStartTime) return; const el = document.getElementById('fastLiveTimer'); const prog = document.getElementById('fastTimerProgress'); if(!el || !prog) return; const elapsed = Math.floor((Date.now() - fastStartTime) / 1000); const h = Math.floor(elapsed / 3600); const m = Math.floor((elapsed % 3600) / 60); const s = elapsed % 60; el.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; prog.style.width = Math.min(100, (elapsed / (FAST_TARGET * 3600)) * 100) + '%'; }
-function deleteFast(index) { history[activeDay].fastHours = Math.max(0, history[activeDay].fastHours - history[activeDay].fasts[index].hours); history[activeDay].fasts.splice(index, 1); updateAllUI(); }
-function openFastLog(day) { activeDay = day; document.getElementById('fastLogTitle').innerText = `${day}'s Log Book`; document.getElementById('fastHFast').value = history[day].fastHours ? history[day].fastHours.toFixed(1) : ""; renderFastOverlayFasts(); document.getElementById('fastLogOverlay').style.display = 'block'; updateAllUI(); }
-function renderFastOverlayFasts() { const list = document.getElementById('fastOverlayFastList'); if (history[activeDay].fasts.length === 0) list.innerHTML = `<p style="font-size:12px; color:var(--sub); padding:10px 0;">No fasts logged.</p>`; else { list.innerHTML = ''; history[activeDay].fasts.forEach((f, index) => { list.innerHTML += `<div class="fast-row" style="padding: 8px 0;"><div><span style="font-size:16px;">⚡</span> <span style="margin-left:5px; font-weight:700;">${f.hours.toFixed(1)}h</span></div><button class="del-btn" onclick="deleteOverlayFast(${index})">✕</button></div>`; }); } }
-function deleteOverlayFast(index) { deleteFast(index); document.getElementById('fastHFast').value = history[activeDay].fastHours.toFixed(1); renderFastOverlayFasts(); }
-function saveFastDay() { history[activeDay].fastHours = parseFloat(document.getElementById('fastHFast').value) || 0; closeFastLog(); }
-function deleteFastDayLog() { if(confirm(`Wipe all fasting data for ${activeDay}?`)) { history[activeDay].fastHours = 0; history[activeDay].fasts = []; closeFastLog(); } }
-function closeFastLog() { document.getElementById('fastLogOverlay').style.display = 'none'; activeDay = DAYS[new Date().getDay()]; updateAllUI(); }
-
 
 // --- MOVE (EXERCISE) TAB LOGIC ---
 function updateMoveUI() {
@@ -1213,6 +1113,46 @@ function saveMoveDay() { history[activeDay].ex = parseInt(document.getElementByI
 function deleteMoveDayLog() { if(confirm(`Wipe all exercise data for ${activeDay}?`)) { history[activeDay].ex = 0; history[activeDay].workouts = []; closeMoveLog(); } }
 function closeMoveLog() { document.getElementById('moveLogOverlay').style.display = 'none'; activeDay = DAYS[new Date().getDay()]; updateAllUI(); }
 
+
+// --- GROCERY TAB LOGIC ---
+function renderGroceryList() {
+    const container = document.getElementById('groceryContainer');
+    container.innerHTML = '';
+
+    groceryData.forEach(category => {
+        let catHtml = `<div class="grocery-cat"><div class="grocery-cat-title">${category.cat}</div>`;
+        category.items.forEach(item => {
+            const isChecked = groceryState[item.id] ? 'checked' : '';
+            catHtml += `
+                <div class="g-item ${isChecked}" id="g-item-${item.id}" onclick="toggleGrocery('${item.id}')">
+                    <div>
+                        <span class="g-name">${item.name}</span>
+                        <span class="g-desc">${item.desc}</span>
+                    </div>
+                    <div class="g-cb"></div>
+                </div>`;
+        });
+        catHtml += `</div>`;
+        container.innerHTML += catHtml;
+    });
+}
+
+function toggleGrocery(id) {
+    groceryState[id] = !groceryState[id];
+    localStorage.setItem('mo_grocery', JSON.stringify(groceryState));
+    
+    const el = document.getElementById(`g-item-${id}`);
+    if(groceryState[id]) el.classList.add('checked');
+    else el.classList.remove('checked');
+}
+
+function resetGroceryList() {
+    if(confirm("Uncheck all items?")) {
+        groceryState = {};
+        localStorage.setItem('mo_grocery', JSON.stringify(groceryState));
+        renderGroceryList();
+    }
+}
 
 // --- STATS TAB LOGIC ---
 function updateStatsUI() {
@@ -1313,7 +1253,6 @@ function drawChart() {
 // Initialize Application
 initRituals();
 updateAllUI();
-if (fastIsFasting) { fastTimerInterval = setInterval(updateLiveTimer, 1000); }
 </script>
 </body>
 </html>
